@@ -1,6 +1,5 @@
 package Logica;
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,7 +29,7 @@ public class Main {
                     System.out.println("Saliendo del sistema");
                     break;
                 case 1:
-                    ingresoUsuario(baseDatosUsuarios);
+                    usuario(baseDatosUsuarios);
                 case 2:
                     administrador(baseDatosEventos);
                     break;
@@ -42,47 +41,14 @@ public class Main {
     }
 
 
-    private static void ingresoUsuario(ArrayList<Usuario> baseDatosUsuarios) {
-        Scanner scanner = new Scanner(System.in);
-
-        int opcion = -1;
-
-        while (opcion != 0) {
-            System.out.println("");
-            System.out.println("Panel Usuario");
-            System.out.println("");
-            System.out.println("1. Panel de usuario");
-            System.out.println("2. Comprar boletas");
-            System.out.println("0. Volver");
-            System.out.println("");
-            System.out.print("Ingrese su opción:");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-            switch (opcion) {
-                case 0:
-                    break;
-                case 1:
-                    usuario(baseDatosUsuarios);
-                    break;
-                case 2:
-                    boletas();
-                    break;
-                default:
-                    System.out.println("Opción no válida");
-            }
-        }
-    }
-
 
     private static void usuario(ArrayList<Usuario> baseDatosUsuarios) {
         Scanner scanner = new Scanner(System.in);
         int opcion = -1;
         while (opcion != 0) {
             System.out.println("");
-            System.out.println("1. Agregar Usuario");
-            System.out.println("2. Actualizar Usuario");
-            System.out.println("3. Buscar Usuario");
-            System.out.println("4. Eliminar Usuario");
+            System.out.println("1. Iniciar sesion de usuario");
+            System.out.println("2. Crear Usuario");
             System.out.println("0. Volver");
             System.out.println("");
             System.out.print("Ingrese su opción:");
@@ -92,6 +58,30 @@ public class Main {
                 case 0:
                     break;
                 case 1:
+                    System.out.print("Ingrese el documento:");
+                    String docBuscarAgregar = scanner.nextLine();
+                    System.out.print("Ingrese su contraseña:");
+                    String conBuscarAgregar = scanner.nextLine();
+                    int i = 0;
+
+                    while (i < baseDatosUsuarios.size()) {
+                        Usuario usuario = baseDatosUsuarios.get(i);
+                        if (usuario.getDocumento().equals(docBuscarAgregar) && usuario.getContrasena().equals(conBuscarAgregar)) {
+                            System.out.println(usuario.getNombre());
+                            System.out.println(usuario.getApellidos());
+                            System.out.println(usuario.getDocumento());
+                            System.out.println(usuario.getCorreo());
+                            i = baseDatosUsuarios.size();
+                        } else {
+                            System.out.println("Usuario no encontrado");
+                        }
+                        i++;
+                    }
+
+
+
+                    break;
+                case 2:
                     System.out.print("Nombres:");
                     String nombre = scanner.nextLine();
                     System.out.print("Apellidos:");
@@ -103,12 +93,6 @@ public class Main {
                     System.out.print("Correo:");
                     String correo = scanner.next();
                     baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
                     break;
                 default:
                     System.out.println("Opción no válida");

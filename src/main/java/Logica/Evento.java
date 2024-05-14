@@ -30,7 +30,7 @@ public class Evento {
     }
 
     public void cantidad() {
-        Boletera boletera = new Boletera(cobreDispo,plataDispo,oroDispo);
+        Tiquetes boletera = new Tiquetes();
         System.out.println("el valor de las boletas es de:"+boletera.ventaBoletos(precioCobre,precioPlata,precioOro));
     }
 

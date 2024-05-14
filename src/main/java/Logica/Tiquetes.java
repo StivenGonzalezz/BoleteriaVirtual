@@ -2,13 +2,13 @@ package Logica;
 
 import java.util.Scanner;
 
-public class Boletera {
+public class Tiquetes {
 
     private int canCobre;
     private int canPlata;
     private int canOro;
 
-    public Boletera(int canCobre, int canPlata, int canOro) {
+    public Tiquetes() {
         this.canCobre = canCobre;
         this.canPlata = canPlata;
         this.canOro = canOro;

@@ -69,10 +69,6 @@ public class Main {
                     while (i < baseDatosUsuarios.size()) {
                         Usuario usuario = baseDatosUsuarios.get(i);
                         if (usuario.getDocumento().equals(docBuscarAgregar) && usuario.getContrasena().equals(conBuscarAgregar)) {
-                            System.out.println(usuario.getNombre());
-                            System.out.println(usuario.getApellidos());
-                            System.out.println(usuario.getDocumento());
-                            System.out.println(usuario.getCorreo());
                             venderTiquetes(baseDatosEventos);
                             i = baseDatosUsuarios.size();
                         } else {
@@ -100,6 +96,59 @@ public class Main {
             }
         }
     }
+
+    private static void administrador(ArrayList<Evento> baseDatosEventos) {
+        Scanner scanner = new Scanner(System.in);
+
+        int opcion = -1;
+
+        while (opcion != 0) {
+            System.out.println("");
+            System.out.println("Panel admin");
+            System.out.println("");
+            System.out.println("1. Registrar evento");
+            System.out.println("2. Apertura de taquilla");
+            System.out.println("0. Volver");
+            System.out.println("");
+            System.out.print("Ingrese su opción:");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+            switch (opcion) {
+                case 0:
+                    break;
+                case 1:
+                    System.out.print("Nombre:");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Fecha:");
+                    String fecha = scanner.nextLine();
+                    System.out.print("Lugar:");
+                    String lugar = scanner.nextLine();
+                    System.out.print("Artistas:");
+                    String artistas = scanner.nextLine();
+                    System.out.print("Precio cobre:");
+                    int precioCobre = scanner.nextInt();
+                    System.out.print("Precio plata:");
+                    int precioPlata = scanner.nextInt();
+                    System.out.print("Precio oro:");
+                    int precioOro = scanner.nextInt();
+                    System.out.print("Capacidad:");
+                    int capacidad = scanner.nextInt();
+                    baseDatosEventos.add(new Evento(nombre, fecha, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
+                    break;
+                case 2:
+                    
+                    break;
+                default:
+                    System.out.println("Opción no válida");
+                    break;
+            }
+        }
+    }
+
+
+
+
+
 
     private static int venderTiquetes(ArrayList<Evento> baseDatosEventos) {
         Scanner scanner = new Scanner(System.in);
@@ -194,52 +243,5 @@ public class Main {
             }
         }
         return totalOro;
-    }
-
-    private static void administrador(ArrayList<Evento> baseDatosEventos) {
-        Scanner scanner = new Scanner(System.in);
-
-        int opcion = -1;
-
-        while (opcion != 0) {
-            System.out.println("");
-            System.out.println("Panel admin");
-            System.out.println("");
-            System.out.println("1. Registrar evento");
-            System.out.println("2. Apertura de taquilla");
-            System.out.println("0. Volver");
-            System.out.println("");
-            System.out.print("Ingrese su opción:");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-            switch (opcion) {
-                case 0:
-                    break;
-                case 1:
-                    System.out.print("Nombre:");
-                    String nombre = scanner.nextLine();
-                    System.out.print("Fecha:");
-                    String fecha = scanner.nextLine();
-                    System.out.print("Lugar:");
-                    String lugar = scanner.nextLine();
-                    System.out.print("Artistas:");
-                    String artistas = scanner.nextLine();
-                    System.out.print("Precio cobre:");
-                    int precioCobre = scanner.nextInt();
-                    System.out.print("Precio plata:");
-                    int precioPlata = scanner.nextInt();
-                    System.out.print("Precio oro:");
-                    int precioOro = scanner.nextInt();
-                    System.out.print("Capacidad:");
-                    int capacidad = scanner.nextInt();
-                    baseDatosEventos.add(new Evento(nombre, fecha, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
-                    break;
-                case 2:
-                    break;
-                default:
-                    System.out.println("Opción no válida");
-                    break;
-            }
-        }
     }
 }

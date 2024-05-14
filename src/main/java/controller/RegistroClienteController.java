@@ -25,11 +25,18 @@ public class RegistroClienteController {
     private TextField txtPasswordCliente;
     @FXML
     private TextField txtRepetirPasswordCliente;
+    @FXML
+    private Button btnConRegUser;
 
     @FXML
     public void volver(ActionEvent actionEvent) throws IOException {
         Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewMenuPrincipal.fxml"));
         anchorPane.getChildren().removeAll();
         anchorPane.getChildren().setAll(fxml);
+    }
+
+    @FXML
+    public void registroUser(ActionEvent actionEvent) {
+
     }
 }

@@ -1,8 +1,10 @@
 module com.example.boleteriavirtual {
     requires javafx.controls;
     requires javafx.fxml;
-
-
-    opens com.example.boleteriavirtual to javafx.fxml;
-    exports com.example.boleteriavirtual;
+    opens application to javafx.fxml;
+    exports application;
+    exports controller;
+    opens controller to javafx.fxml;
+    opens clases;
 }
+

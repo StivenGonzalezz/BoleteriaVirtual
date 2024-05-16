@@ -37,4 +37,8 @@ public class Usuario {
     }public void setCorreo(String correo) {
         this.correo = correo;
     }
+
+    public String toFileString() {
+        return nombre + "," + apellidos + "," + documento + "," + contrasena + "," + correo;
+    }
 }

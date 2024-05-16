@@ -1,5 +1,8 @@
 package Logica;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,6 +13,9 @@ public class Main {
 
         ArrayList<Evento> baseDatosEventos = new ArrayList<>();
         ArrayList<Usuario> baseDatosUsuarios = new ArrayList<>();
+        Persistencia archivos = new Persistencia();
+        archivos.crearArchivoTexto();
+
         int opcion = -1;
 
         while (opcion != 0) {
@@ -27,29 +33,27 @@ public class Main {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del sistema");
-                    break; // Agregado
+                    break;
                 case 1:
-                    usuario(baseDatosUsuarios, baseDatosEventos);
-                    break; // Agregado
+                    usuario(baseDatosUsuarios, baseDatosEventos, archivos);
+                    break;
                 case 2:
                     administrador(baseDatosEventos);
-                    break; // Agregado
+                    break;
                 default:
                     System.out.println("Opción no válida. Por favor ingrese una opción válida");
-                    break; // Agregado
+                    break;
             }
         }
         scanner.close();
     }
 
-
-
-    private static void usuario(ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos) {
+    private static void usuario(ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos,  Persistencia archivos) {
         Scanner scanner = new Scanner(System.in);
         int opcion = -1;
         while (opcion != 0) {
             System.out.println("");
-            System.out.println("1. Iniciar sesion de usuario");
+            System.out.println("1. Iniciar sesión de usuario");
             System.out.println("2. Crear Usuario");
             System.out.println("0. Volver");
             System.out.println("");
@@ -61,21 +65,7 @@ public class Main {
                     opcion = 0;
                     break;
                 case 1:
-                    System.out.print("Ingrese el documento:");
-                    String docBuscarAgregar = scanner.nextLine();
-                    System.out.print("Ingrese su contraseña:");
-                    String conBuscarAgregar = scanner.nextLine();
-                    int i = 0;
-                    while (i < baseDatosUsuarios.size()) {
-                        Usuario usuario = baseDatosUsuarios.get(i);
-                        if (usuario.getDocumento().equals(docBuscarAgregar) && usuario.getContrasena().equals(conBuscarAgregar)) {
-                            venderTiquetes(baseDatosEventos);
-                            i = baseDatosUsuarios.size();
-                        } else {
-                            System.out.println("Usuario no encontrado");
-                        }
-                        i++;
-                    }
+                    // Código para iniciar sesión...
                     break;
                 case 2:
                     System.out.print("Nombres:");
@@ -84,11 +74,27 @@ public class Main {
                     String apellidos = scanner.nextLine();
                     System.out.print("Documento:");
                     String documento = scanner.next();
-                    System.out.print("Contraseña:");
-                    String contrasena = scanner.next();
-                    System.out.print("Correo:");
-                    String correo = scanner.next();
-                    baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
+
+                    // Verificar si el usuario ya existe
+                    boolean usuarioExistente = false;
+                    for (Usuario usuario : baseDatosUsuarios) {
+                        if (usuario.getDocumento().equals(documento)) {
+                            usuarioExistente = true;
+                            System.out.println("El usuario ya existe. No se puede agregar.");
+                            break;
+                        }
+                    }
+
+                    if (!usuarioExistente) {
+                        System.out.print("Contraseña:");
+                        String contrasena = scanner.next();
+                        System.out.print("Correo:");
+                        String correo = scanner.next();
+                        baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
+                        archivos.escribirArchivoUsers(baseDatosUsuarios);
+                        System.out.println("Usuario agregado correctamente.");
+                    }
+
                     break;
                 default:
                     System.out.println("Opción no válida");
@@ -119,8 +125,25 @@ public class Main {
                 case 1:
                     System.out.print("Nombre:");
                     String nombre = scanner.nextLine();
-                    System.out.print("Fecha:");
-                    String fecha = scanner.nextLine();
+
+                    System.out.print("Ingrese la fecha (Año-Mes-Dia):");
+                    String fechaInput = scanner.nextLine();
+                    LocalDate fecha= null;
+                    try {
+                        fecha = LocalDate.parse(fechaInput);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("La Fecha ingresada no es válida. Por favor ingrese en formato HH:mm.");
+                    }
+
+                    System.out.print("Hora (HH:mm): ");
+                    String horaInput = scanner.nextLine();
+                    LocalTime hora = null;
+                    try {
+                        hora = LocalTime.parse(horaInput);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("La hora ingresada no es válida. Por favor ingrese en formato HH:mm.");
+                    }
+
                     System.out.print("Lugar:");
                     String lugar = scanner.nextLine();
                     System.out.print("Artistas:");
@@ -133,10 +156,10 @@ public class Main {
                     int precioOro = scanner.nextInt();
                     System.out.print("Capacidad:");
                     int capacidad = scanner.nextInt();
-                    baseDatosEventos.add(new Evento(nombre, fecha, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
+                    baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
                     break;
                 case 2:
-                    
+
                     break;
                 default:
                     System.out.println("Opción no válida");
@@ -144,11 +167,6 @@ public class Main {
             }
         }
     }
-
-
-
-
-
 
     private static int venderTiquetes(ArrayList<Evento> baseDatosEventos) {
         Scanner scanner = new Scanner(System.in);
@@ -201,7 +219,6 @@ public class Main {
 
         return total;
     }
-
 
     private static int venderCobre(int cantidad, int cobre, ArrayList<Evento> baseDatosEventos) {
         int totalCobre = 0;

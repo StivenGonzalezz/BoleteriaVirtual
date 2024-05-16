@@ -1,5 +1,8 @@
 package Logica;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -12,7 +15,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<Evento> baseDatosEventos = new ArrayList<>();
-        ArrayList<Usuario> baseDatosUsuarios = new ArrayList<>();
+        ArrayList<Usuario> baseDatosUsuarios = cargarUsuariosDesdeArchivo();
         Persistencia archivos = new Persistencia();
         archivos.crearArchivoTexto();
 
@@ -65,17 +68,12 @@ public class Main {
                     opcion = 0;
                     break;
                 case 1:
-                    // Código para iniciar sesión...
+                    //venderTiquetes();
                     break;
                 case 2:
-                    System.out.print("Nombres:");
-                    String nombre = scanner.nextLine();
-                    System.out.print("Apellidos:");
-                    String apellidos = scanner.nextLine();
                     System.out.print("Documento:");
-                    String documento = scanner.next();
+                    String documento = scanner.nextLine();
 
-                    // Verificar si el usuario ya existe
                     boolean usuarioExistente = false;
                     for (Usuario usuario : baseDatosUsuarios) {
                         if (usuario.getDocumento().equals(documento)) {
@@ -86,6 +84,10 @@ public class Main {
                     }
 
                     if (!usuarioExistente) {
+                        System.out.print("Nombres:");
+                        String nombre = scanner.nextLine();
+                        System.out.print("Apellidos:");
+                        String apellidos = scanner.nextLine();
                         System.out.print("Contraseña:");
                         String contrasena = scanner.next();
                         System.out.print("Correo:");
@@ -94,7 +96,6 @@ public class Main {
                         archivos.escribirArchivoUsers(baseDatosUsuarios);
                         System.out.println("Usuario agregado correctamente.");
                     }
-
                     break;
                 default:
                     System.out.println("Opción no válida");
@@ -260,5 +261,27 @@ public class Main {
             }
         }
         return totalOro;
+    }
+
+    private static ArrayList<Usuario> cargarUsuariosDesdeArchivo() {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        String archivoUsuarios = "achivoUsers.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] campos = linea.split(",");
+                String nombre = campos[0];
+                String apellidos = campos[1];
+                String documento = campos[2];
+                String contrasena = campos[3];
+                String correo = campos[4];
+                usuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return usuarios;
     }
 }

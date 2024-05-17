@@ -43,7 +43,7 @@ public class Boleteria {
                     logger.info("Cliente escoge opcion de ingreso al menu de usuario");
                     break;
                 case 2:
-                    administrador(baseDatosEventos);
+                    administrador(baseDatosEventos, archivos);
                     logger.info("liente escoge opcion de ingreso al menu adminstrativo");
                     break;
                 default:
@@ -98,7 +98,7 @@ public class Boleteria {
                         String correo = scanner.next();
                         baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
                         archivos.escribirArchivoUsers(baseDatosUsuarios);
-                        System.out.println("Usuario agregado correctamente.");
+                        System.out.println("Usuario agregado correctamente");
                     }
                     break;
                 default:
@@ -106,9 +106,10 @@ public class Boleteria {
                     break;
             }
         }
+        scanner.close();
     }
 
-    private static void administrador(ArrayList<Evento> baseDatosEventos) {
+    private static void administrador(ArrayList<Evento> baseDatosEventos, Persistencia archivos) {
         Scanner scanner = new Scanner(System.in);
 
         int opcion = -1;
@@ -129,8 +130,9 @@ public class Boleteria {
 
                     break;
                 case 2:
-                    System.out.print("Nombre:");
-                    String nombre = scanner.nextLine();
+
+                    System.out.print("Lugar:");
+                    String lugar = scanner.nextLine();
 
                     System.out.print("Ingrese la fecha (Año-Mes-Dia):");
                     String fechaInput = scanner.nextLine();
@@ -150,25 +152,38 @@ public class Boleteria {
                         System.out.println("La hora ingresada no es válida. Por favor ingrese en formato HH:mm.");
                     }
 
-                    System.out.print("Lugar:");
-                    String lugar = scanner.nextLine();
-                    System.out.print("Artistas:");
-                    String artistas = scanner.nextLine();
-                    System.out.print("Precio cobre:");
-                    int precioCobre = scanner.nextInt();
-                    System.out.print("Precio plata:");
-                    int precioPlata = scanner.nextInt();
-                    System.out.print("Precio oro:");
-                    int precioOro = scanner.nextInt();
-                    System.out.print("Capacidad:");
-                    int capacidad = scanner.nextInt();
-                    baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
+                    boolean eventoExistente = false;
+                    for (Evento evento : baseDatosEventos) {
+                        if (evento.getLugar().equals(lugar) && evento.getFecha().equals(fecha)  && evento.getHora().equals(hora)) {
+                            eventoExistente = true;
+                            System.out.println("El evento ya existe. No se puede agregar.");
+                            break;
+                        }
+                    }
+                    if (!eventoExistente) {
+                        System.out.print("Nombre:");
+                        String nombre = scanner.nextLine();
+                        System.out.print("Artistas:");
+                        String artistas = scanner.nextLine();
+                        System.out.print("Precio cobre:");
+                        int precioCobre = scanner.nextInt();
+                        System.out.print("Precio plata:");
+                        int precioPlata = scanner.nextInt();
+                        System.out.print("Precio oro:");
+                        int precioOro = scanner.nextInt();
+                        System.out.print("Capacidad:");
+                        int capacidad = scanner.nextInt();
+                        baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
+                        archivos.escribirArchivoEvents(baseDatosEventos);
+                        System.out.println("Evento agregado correctamente");
+                    }
                     break;
                 default:
                     System.out.println("Opción no válida");
                     break;
             }
         }
+        scanner.close();
     }
 
     //SECCION Y COMANDOS DE LOGGS

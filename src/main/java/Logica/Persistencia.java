@@ -24,7 +24,7 @@ public class Persistencia {
         }
     }
 
-    public void escribirArchivoEvents(ArrayList<Evento> baseDatosEventos, String msg) {
+    public void escribirArchivoEvents(ArrayList<Evento> baseDatosEventos) {
         try {
             FileWriter escritura = new FileWriter("src\\main\\java\\DataBase\\archivoEvents.txt", true);// si se pone en true no se borra lo del txt
             BufferedWriter bufferEscritura = new BufferedWriter(escritura);

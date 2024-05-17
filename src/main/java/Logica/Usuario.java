@@ -7,7 +7,6 @@ public class Usuario {
     private String contrasena;
     private String correo;
 
-
     public Usuario(String nombre, String apellidos, String documento, String contrasena, String correo) {
         this.nombre = nombre;
         this.apellidos = apellidos;

@@ -23,7 +23,7 @@ public class Main {
 
         while (opcion != 0) {
             System.out.println("");
-            System.out.println("Ingreso");
+            System.out.println("Ingreso:");
             System.out.println("");
             System.out.println("1. Usuario");
             System.out.println("2. Administrador");

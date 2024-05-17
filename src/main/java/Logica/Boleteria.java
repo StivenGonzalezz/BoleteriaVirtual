@@ -303,7 +303,6 @@ public class Boleteria {
 
 
     //SECCION Y COMANDOS DE LOGGS
-
     private static Logger logger = Logger.getLogger("MyLog");
     private static void createLoggFile() {
         FileHandler fh;

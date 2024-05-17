@@ -9,8 +9,8 @@ public class Persistencia {
     File achivoUsers;
 
     public void crearArchivoTexto(){
-        archivoEvents = new File("archivoEvents.txt");
-        achivoUsers  = new File("achivoUsers.txt");
+        archivoEvents = new File("src\\main\\java\\DataBase\\archivoEvents.txt");
+        achivoUsers  = new File("src\\main\\java\\DataBase\\archivoUsers.txt");
         try {
             if(archivoEvents.createNewFile() && achivoUsers.createNewFile()){
                 System.out.println("se crearon los archivos");
@@ -24,7 +24,7 @@ public class Persistencia {
 
     public void escribirArchivoEvents(ArrayList<Evento> baseDatosEventos, String msg){
         try{
-            FileWriter escritura = new FileWriter("archivoEvents.txt",true);// si se pone en true no se borra lo del txt
+            FileWriter escritura = new FileWriter("src\\main\\java\\DataBase\\archivoEvents.txt",true);// si se pone en true no se borra lo del txt
             escritura.write(msg);
             escritura.close();
             System.out.println("texto añadido");
@@ -35,7 +35,7 @@ public class Persistencia {
 
     public void escribirArchivoUsers(ArrayList<Usuario> baseDatosUsuarios) {
         try {
-            FileWriter escritura = new FileWriter("achivoUsers.txt", false);
+            FileWriter escritura = new FileWriter("src\\main\\java\\DataBase\\archivoUsers.txt", false);
             BufferedWriter bufferEscritura = new BufferedWriter(escritura);
             for (Usuario usuario : baseDatosUsuarios) {
                 bufferEscritura.write(usuario.toFileString() + "\n");
@@ -50,7 +50,7 @@ public class Persistencia {
 
     public void leerArchivoUsers() {
         try {
-            FileReader archivo = new FileReader("achivoUsers.txt");
+            FileReader archivo = new FileReader("src\\main\\java\\DataBase\\archivoUsers.txt");
             BufferedReader lector = new BufferedReader(archivo);
             String linea;
 

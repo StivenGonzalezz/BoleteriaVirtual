@@ -35,7 +35,7 @@ public class Persistencia {
 
     public void escribirArchivoUsers(ArrayList<Usuario> baseDatosUsuarios) {
         try {
-            FileWriter escritura = new FileWriter("achivoUsers.txt", true);
+            FileWriter escritura = new FileWriter("achivoUsers.txt", false);
             BufferedWriter bufferEscritura = new BufferedWriter(escritura);
             for (Usuario usuario : baseDatosUsuarios) {
                 bufferEscritura.write(usuario.toFileString() + "\n");

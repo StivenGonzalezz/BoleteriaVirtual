@@ -82,4 +82,8 @@ public class Evento {
     }public void setOroDispo(int oroDispo) {
         this.oroDispo = oroDispo;
     }
+
+    public String toFileString() {
+        return nombre+","+fecha+","+hora+","+lugar+","+artista+","+precioCobre+","+precioPlata+","+precioOro+","+canEscenario;
+    }
 }

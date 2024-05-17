@@ -1,8 +1,5 @@
 package Logica;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -19,9 +16,10 @@ public class Boleteria {
         createLoggFile();
 
         Scanner scanner = new Scanner(System.in);
+        Persistencia persistencia = new Persistencia();
 
         ArrayList<Evento> baseDatosEventos = new ArrayList<>();
-        ArrayList<Usuario> baseDatosUsuarios = cargarUsuariosDesdeArchivo();
+        ArrayList<Usuario> baseDatosUsuarios = persistencia.leerArchivoUsers();
         Persistencia archivos = new Persistencia();
         archivos.crearArchivoTexto();
 
@@ -62,7 +60,6 @@ public class Boleteria {
 
     }
 
-
     private static void usuario(ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos,  Persistencia archivos) {
         Scanner scanner = new Scanner(System.in);
         int opcion = -1;
@@ -77,7 +74,8 @@ public class Boleteria {
             scanner.nextLine();
             switch (opcion) {
                 case 0:
-                    opcion = 0;
+                    System.out.println("Saliendo del panel usuario");
+                    logger.info("Cliente escoge opcion de salida del panel usuario");
                     break;
                 case 1:
                     //venderTiquetes();
@@ -110,12 +108,12 @@ public class Boleteria {
                     }
                     break;
                 default:
-                    System.out.println("Opción no válida");
+                    System.out.println("Opción no válida. Por favor ingrese una opción válida");
+                    logger.info("Cliente digita opcion incorrecta");
                     break;
             }
         }
     }
-
 
     private static void administrador(ArrayList<Evento> baseDatosEventos) {
         Scanner scanner = new Scanner(System.in);
@@ -126,8 +124,8 @@ public class Boleteria {
             System.out.println("");
             System.out.println("Panel admin");
             System.out.println("");
-            System.out.println("1. Registrar evento");
-            System.out.println("2. Apertura de taquilla");
+            System.out.println("1. Apertura de taquilla");
+            System.out.println("2. Registrar evento");
             System.out.println("0. Volver");
             System.out.println("");
             System.out.print("Ingrese su opción:");
@@ -135,8 +133,13 @@ public class Boleteria {
             scanner.nextLine();
             switch (opcion) {
                 case 0:
+                    System.out.println("Saliendo del panel admin");
+                    logger.info("Admin escoge opcion de salida del panel admin");
                     break;
                 case 1:
+                    venderTiquetes(baseDatosEventos);
+                    break;
+                case 2:
                     System.out.print("Nombre:");
                     String nombre = scanner.nextLine();
 
@@ -172,16 +175,12 @@ public class Boleteria {
                     int capacidad = scanner.nextInt();
                     baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad));
                     break;
-                case 2:
-
-                    break;
                 default:
                     System.out.println("Opción no válida");
                     break;
             }
         }
     }
-
 
     private static int venderTiquetes(ArrayList<Evento> baseDatosEventos) {
         Scanner scanner = new Scanner(System.in);
@@ -263,7 +262,6 @@ public class Boleteria {
         return totalPlata;
     }
 
-
     private static int venderOro(int cantidad, int oro, ArrayList<Evento> baseDatosEventos) {
         int totalOro = 0;
         for (Evento evento : baseDatosEventos) {
@@ -277,30 +275,6 @@ public class Boleteria {
         }
         return totalOro;
     }
-
-    private static ArrayList<Usuario> cargarUsuariosDesdeArchivo() {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        String archivoUsuarios = "src\\main\\java\\DataBase\\archivoUsers.txt";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] campos = linea.split(",");
-                String nombre = campos[0];
-                String apellidos = campos[1];
-                String documento = campos[2];
-                String contrasena = campos[3];
-                String correo = campos[4];
-                usuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return usuarios;
-    }
-
-
 
     //SECCION Y COMANDOS DE LOGGS
     private static Logger logger = Logger.getLogger("MyLog");

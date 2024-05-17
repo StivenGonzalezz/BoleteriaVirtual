@@ -11,28 +11,24 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Boleteria {
+
     public void inicio() {
 
+        Scanner scanner = new Scanner(System.in);
+        Persistencia archivos = new Persistencia();
+        Taquilla taquilla = new Taquilla();
         createLoggFile();
 
-        Scanner scanner = new Scanner(System.in);
-        Persistencia persistencia = new Persistencia();
-
+        ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
         ArrayList<Evento> baseDatosEventos = new ArrayList<>();
-        ArrayList<Usuario> baseDatosUsuarios = persistencia.leerArchivoUsers();
-        Persistencia archivos = new Persistencia();
         archivos.crearArchivoTexto();
-
         int opcion = -1;
 
         while (opcion != 0) {
-            System.out.println("");
-            System.out.println("Ingreso:");
-            System.out.println("");
+            System.out.println("\nIngreso\n");
             System.out.println("1. Usuario");
             System.out.println("2. Administrador");
-            System.out.println("0. Salir");
-            System.out.println("");
+            System.out.println("0. Salir\n");
             System.out.print("Ingrese su opción:");
             opcion = scanner.nextInt();
             System.out.println("");
@@ -43,7 +39,7 @@ public class Boleteria {
                     logger.info("Cliente escoge opcion de salida del sistema");
                     break;
                 case 1:
-                    usuario(baseDatosUsuarios, baseDatosEventos, archivos);
+                    usuario(baseDatosUsuarios, baseDatosEventos, archivos, taquilla);
                     logger.info("Cliente escoge opcion de ingreso al menu de usuario");
                     break;
                 case 2:
@@ -57,28 +53,26 @@ public class Boleteria {
             }
         }
         scanner.close();
-
     }
 
-    private static void usuario(ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos,  Persistencia archivos) {
+    private static void usuario(ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos,  Persistencia archivos, Taquilla taquilla) {
         Scanner scanner = new Scanner(System.in);
         int opcion = -1;
         while (opcion != 0) {
-            System.out.println("");
+            System.out.println("Panel usuario\n");
             System.out.println("1. Iniciar sesión de usuario");
             System.out.println("2. Crear Usuario");
-            System.out.println("0. Volver");
-            System.out.println("");
+            System.out.println("0. Volver\n");
             System.out.print("Ingrese su opción:");
             opcion = scanner.nextInt();
             scanner.nextLine();
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del panel usuario");
-                    logger.info("Cliente escoge opcion de salida del panel usuario");
                     break;
                 case 1:
-                    //venderTiquetes();
+                    taquilla.venderTiquetes(baseDatosEventos);
+
                     break;
                 case 2:
                     System.out.print("Documento:");
@@ -109,7 +103,6 @@ public class Boleteria {
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor ingrese una opción válida");
-                    logger.info("Cliente digita opcion incorrecta");
                     break;
             }
         }
@@ -121,23 +114,19 @@ public class Boleteria {
         int opcion = -1;
 
         while (opcion != 0) {
-            System.out.println("");
-            System.out.println("Panel admin");
-            System.out.println("");
+            System.out.println("Panel admin\n");
             System.out.println("1. Apertura de taquilla");
             System.out.println("2. Registrar evento");
-            System.out.println("0. Volver");
-            System.out.println("");
+            System.out.println("0. Volver\n");
             System.out.print("Ingrese su opción:");
             opcion = scanner.nextInt();
             scanner.nextLine();
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del panel admin");
-                    logger.info("Admin escoge opcion de salida del panel admin");
                     break;
                 case 1:
-                    venderTiquetes(baseDatosEventos);
+
                     break;
                 case 2:
                     System.out.print("Nombre:");
@@ -182,102 +171,9 @@ public class Boleteria {
         }
     }
 
-    private static int venderTiquetes(ArrayList<Evento> baseDatosEventos) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Cual es el nombre del evento al que quiere asistir:");
-        String nombreEventoBus = scanner.nextLine();
-        int i = 0;
-        int total = 0;
-        while (i < baseDatosEventos.size()) {
-            Evento evento = baseDatosEventos.get(i);
-            if (evento.getNombre().equalsIgnoreCase(nombreEventoBus)) {
-                int cobre = evento.getPrecioCobre();
-                int plata = evento.getPrecioPlata();
-                int oro = evento.getPrecioOro();
-                System.out.println("Bienvenido a la venta de boletos.");
-                total = 0;
-                int opcion = -1;
-                int cantidad = 0;
-                while (opcion != 0) {
-                    System.out.println("¿Qué tipo de boleto desea comprar?");
-                    System.out.println("1. Cobre");
-                    System.out.println("2. Plata");
-                    System.out.println("3. Oro");
-                    System.out.println("0. Salir");
-                    opcion = scanner.nextInt();
-                    if (opcion != 0) {
-                        System.out.println("¿Cuántos boletos desea comprar?");
-                        cantidad = scanner.nextInt();
-                    }
-                    switch (opcion) {
-                        case 1:
-                            total = total + venderCobre(cantidad, cobre, baseDatosEventos);
-                            break;
-                        case 2:
-                            total = total + venderPlata(cantidad, plata, baseDatosEventos);
-                            break;
-                        case 3:
-                            total = total + venderOro(cantidad, oro, baseDatosEventos);
-                            break;
-                        case 0:
-                            opcion = 0;
-                            break;
-                        default:
-                            System.out.println("Opción no válida");
-                            break;
-                    }
-                }
-            }
-            i++;
-        }
-
-        return total;
-    }
-
-    private static int venderCobre(int cantidad, int cobre, ArrayList<Evento> baseDatosEventos) {
-        int totalCobre = 0;
-        for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.6) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalCobre = cantidad * cobre;
-                System.out.println("Se han vendido " + cantidad + " boletos cobre");
-            } else {
-                System.out.println("Ya no hay boletos cobre disponibles");
-            }
-        }
-        return totalCobre;
-    }
-
-    private static int venderPlata(int cantidad, int plata, ArrayList<Evento> baseDatosEventos) {
-        int totalPlata = 0;
-        for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.3) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalPlata += cantidad * plata;
-                System.out.println("Se han vendido " + cantidad + " boletos de plata.");
-            } else {
-                System.out.println("Ya no hay boletos plata disponibles");
-            }
-        }
-        return totalPlata;
-    }
-
-    private static int venderOro(int cantidad, int oro, ArrayList<Evento> baseDatosEventos) {
-        int totalOro = 0;
-        for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.1) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalOro += cantidad * oro;
-                System.out.println("Se han vendido " + cantidad + " boletos de oro.");
-            } else {
-                System.out.println("Ya no hay boletos oro disponibles");
-            }
-        }
-        return totalOro;
-    }
-
     //SECCION Y COMANDOS DE LOGGS
     private static Logger logger = Logger.getLogger("MyLog");
+
     private static void createLoggFile() {
         FileHandler fh;
         try {

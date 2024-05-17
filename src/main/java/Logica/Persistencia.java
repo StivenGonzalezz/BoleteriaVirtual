@@ -79,7 +79,6 @@ public class Persistencia {
         return eventos;
     }
 
-
     public  ArrayList<Usuario> leerArchivoUsers() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         String archivoUsuarios = "src\\main\\java\\DataBase\\archivoUsers.txt";

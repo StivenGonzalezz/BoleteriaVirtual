@@ -1,6 +1,10 @@
-may 17, 2024 12:56:09 A. M. Logica.Boleteria createLoggFile
+may 17, 2024 1:37:44 A. M. Logica.Boleteria createLoggFile
 INFO: Creando logger
-may 17, 2024 12:56:09 A. M. Logica.Boleteria createLoggFile
+may 17, 2024 1:37:44 A. M. Logica.Boleteria createLoggFile
 INFO: Logger creado
 
 
+may 17, 2024 1:37:48 A. M. Logica.Boleteria usuario
+INFO: Cliente escoge opcion de salida del panel usuario
+may 17, 2024 1:37:48 A. M. Logica.Boleteria inicio
+INFO: Cliente escoge opcion de ingreso al menu de usuario

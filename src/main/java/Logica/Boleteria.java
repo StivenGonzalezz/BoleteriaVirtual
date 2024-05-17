@@ -20,6 +20,7 @@ public class Boleteria {
         createLoggFile();
 
         ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
+        //error al intentar leer el archivo de eventos
         ArrayList<Evento> baseDatosEventos = new ArrayList<>();
         archivos.crearArchivoTexto();
         int opcion = -1;

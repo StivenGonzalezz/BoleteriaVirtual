@@ -13,8 +13,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MenuPrincipalController {
+    //ArrayList<Usuario> baseDatosUsuarios;
+    //Arraylist<Usuario> DatosUsuarios = baseDatosUsuarios;
+    MenuPrincipalController menuPrincipalController = new MenuPrincipalController();
 
     @FXML
     private Button btnClickAdministrador;
@@ -79,4 +83,12 @@ public class MenuPrincipalController {
     @FXML
     public void eventKey(Event event) {
     }
+// Constructor vacio
+    public MenuPrincipalController() {
+    }
+    // Constructor que pasa el arraylist
+    /**public MenuPrincipalController(Arraylist<Usuario> DatosUsuarios) {
+        this.DatosUsuarios = DatosUsuarios;
+    }
+     **/
 }

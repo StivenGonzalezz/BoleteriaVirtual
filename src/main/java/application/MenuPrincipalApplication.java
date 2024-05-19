@@ -14,6 +14,8 @@ public class MenuPrincipalApplication extends Application{
   //  MenuPrincipalController menuPrincipalController = new MenuPrincipalController(ArrayList<Usuario> DatosUsuarios);
     @Override
     public void start(Stage stage) throws IOException {
+        MenuPrincipalController menuPrincipalController= new MenuPrincipalController();
+        //MenuPrincipalController.setVisble();
         FXMLLoader fxmlLoader = new FXMLLoader(MenuPrincipalApplication.class.getResource("viewMenuPrincipal.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("FUTURE AGENCY");

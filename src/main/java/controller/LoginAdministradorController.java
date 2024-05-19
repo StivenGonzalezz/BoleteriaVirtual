@@ -13,8 +13,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LoginAdministradorController {
+    private ArrayList<Usuario> datosUsuario1;
+
     @FXML
     private Button btnLogin;
     @FXML
@@ -26,6 +29,17 @@ public class LoginAdministradorController {
     private Button btnVolver;
     @FXML
     private AnchorPane anchorPane;
+//constructor vacio//
+    public LoginAdministradorController() {
+        //hacer visible la clase no c como//
+
+    }
+// constructor con arraylist//
+    public LoginAdministradorController(ArrayList<Usuario> baseDatosUsuarios) {
+        // hacer visible la clase//
+        datosUsuario1=baseDatosUsuarios;
+
+    }
 
     @FXML
     public void login(ActionEvent actionEvent) throws IOException {
@@ -34,14 +48,17 @@ public class LoginAdministradorController {
         String contrasenia = "12345";
 
         if (txtPassword.getText().equals(contrasenia) && txtUser.getText().equals(documento)) {
+            MenuAdministradorController menuAdministradorController= new MenuAdministradorController(ArrayList<Usuario> baseDatosUsuarios);
+            //menuAdministradorController.setVisible();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(null);
             alert.setTitle("FUTURE AGENCY");
             alert.setContentText("Sesión iniciada.");
             alert.show();
-            Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewMenuAdministrador.fxml"));
+            Parent OtraPagina = avanzar();
             anchorPane.getChildren().removeAll();
-            anchorPane.getChildren().setAll(fxml);
+            anchorPane.getChildren().setAll(OtraPagina);
+
 
         } else if (txtUser.getText().isEmpty() || txtPassword.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -66,8 +83,15 @@ public class LoginAdministradorController {
 
     @FXML
     public void volver(ActionEvent actionEvent) throws IOException {
+        MenuPrincipalController menuPrincipalController= new MenuPrincipalController(Arraylist<Usuario> datosUsuario1);
+        //menuprincipalController.setVisible();
         Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewMenuPrincipal.fxml"));
         anchorPane.getChildren().removeAll();
         anchorPane.getChildren().setAll(fxml);
+    }
+    public Parent avanzar () throws IOException{
+        Parent avanzar = FXMLLoader.load(getClass().getResource("/application/viewMenuAdministrador.fxml"));
+        return avanzar;
+
     }
 }

@@ -10,8 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class registroController {
+    ArrayList<Usuario> baseDatos= new ArrayList<Usuario>();
     @javafx.fxml.FXML
     private ComboBox comboBoxMaterias;
     @javafx.fxml.FXML
@@ -24,6 +27,15 @@ public class registroController {
     private Button btnRegistrar;
     @javafx.fxml.FXML
     private Button btnBuscar;
+//Constructor vacio
+    public registroController() {
+        //Hacer Visible la clase
+    }
+//Constructor con arraylist//
+    public registroController(ArrayList<Usuario> baseDatosUsuarios) {
+        //Hacer Visible la clase
+        baseDatos= baseDatosUsuarios;
+    }
 
     @javafx.fxml.FXML
     public void registrar(ActionEvent actionEvent) {
@@ -39,7 +51,7 @@ public class registroController {
 
     @javafx.fxml.FXML
     public void volver(ActionEvent actionEvent) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewMenuF.fxml"));
+        Parent fxml = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/application/viewMenuF.fxml")));
         anchorPane.getChildren().removeAll();
         anchorPane.getChildren().setAll(fxml);
     }

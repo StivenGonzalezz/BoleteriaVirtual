@@ -43,7 +43,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtArtistasEvento" prefHeight="33.0" prefWidth="385.0" promptText="Aplica el orden (Artista - Artista - Artista) separado por &quot;-&quot;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <TextField fx:id="txtArtistasEvento" prefHeight="33.0" prefWidth="385.0" promptText="Aplica el orden (Artista - Artista - Artista) separado por &quot;-&quot; sin espacios" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <font>
                               <Font size="15.0" />
                            </font></TextField>
@@ -55,7 +55,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtFechaEvento" prefHeight="33.0" prefWidth="385.0" promptText="Aplica el orden (año - mes - día) separado por &quot;-&quot;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="txtFechaEvento" prefHeight="33.0" prefWidth="385.0" promptText="Aplica el orden (año - mes - día) separado por &quot;-&quot; sin espacios" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="15.0" />
                            </font></TextField>
@@ -169,7 +169,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtHoraEvento" prefHeight="33.0" prefWidth="385.0" promptText="Aplica el orden (hora : minutos) separado por &quot;:&quot;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <TextField fx:id="txtHoraEvento" prefHeight="33.0" prefWidth="385.0" promptText="Aplica el orden (hora : minutos) separado por &quot;:&quot; sin espacios" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="15.0" />
                            </font>

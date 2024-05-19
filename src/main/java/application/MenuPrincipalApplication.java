@@ -4,13 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-//private  MenuPrincipalController;
+
 public class MenuPrincipalApplication extends Application{
 
-
-  //  MenuPrincipalController menuPrincipalController = new MenuPrincipalController(ArrayList<Usuario> DatosUsuarios);
     @Override
     public void start(Stage stage) throws IOException {
 

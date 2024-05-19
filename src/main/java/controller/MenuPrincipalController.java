@@ -16,9 +16,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MenuPrincipalController {
-
-    Arraylist<Usuario> DatosUsuarios;
+    //Usuario persona ="daniel "+ "lopez "+"1034"+" 2004" +" csca@gmail.com";
+    ArrayList<Usuario> baseDatosUsuarios;
+    ArrayList<Usuario> DatosUsuarios;
     MenuPrincipalController menuPrincipalController = new MenuPrincipalController();
+
+    public ArrayList<Usuario> getBaseDatosUsuarios() {
+        return baseDatosUsuarios;
+    }
+
 
     @FXML
     private Button btnClickAdministrador;
@@ -37,6 +43,8 @@ public class MenuPrincipalController {
 
     @FXML
     public void ingresar(ActionEvent actionEvent) throws IOException {
+        baseDatosUsuarios.add(persona);
+        System.out.println(baseDatosUsuarios);
         MenuClienteController menuClienteController= new MenuClienteController(baseDatosUsuarios);
         //menuClienteController.setVisible(true);
 
@@ -98,9 +106,10 @@ public class MenuPrincipalController {
         //Hacer visible la clase
     }
     // Constructor que pasa el arraylist
-    public MenuPrincipalController(Arraylist<Usuario> baseDatosUsuarios) {
+    public MenuPrincipalController(ArrayList<Usuario> baseDatosUsuarios) {
      // hacer visible la clase
-     this.DatosUsuarios = DatosUsuarios;
+     this.DatosUsuarios = baseDatosUsuarios;
+
      }
 
     public Parent avanzar (String link) throws IOException {

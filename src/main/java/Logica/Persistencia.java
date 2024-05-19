@@ -3,6 +3,7 @@ package Logica;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class Persistencia {
@@ -35,6 +36,7 @@ public class Persistencia {
             System.out.println("Eventos escritos en el archivo correctamente.");
         } catch (IOException e) {
             e.printStackTrace(System.out);
+            System.out.println("Error al escribir los Eventos en el archivo.");
         }
     }
 
@@ -53,7 +55,7 @@ public class Persistencia {
         }
     }
 
-    public  ArrayList<Evento> leerArchivoEvents() {
+    public ArrayList<Evento> leerArchivoEvents() {
         ArrayList<Evento> eventos = new ArrayList<>();
         String archivoEventos = "src\\main\\java\\DataBase\\archivoEvents.txt";
 
@@ -61,19 +63,21 @@ public class Persistencia {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(",");
-                String nombre = campos[0];
-                LocalDate fecha = LocalDate.parse(campos[1]);
-                LocalTime hora = LocalTime.parse(campos[2]);
-                String lugar = campos[3];
-                String artista = campos[4];
-                int precioCobre = Integer.parseInt(campos[5]);
-                int precioPlata = Integer.parseInt(campos[6]);
-                int precioOro = Integer.parseInt(campos[7]);
-                int canEscenario = Integer.parseInt(campos[8]);
-
-                eventos.add(new Evento(nombre, fecha, hora, lugar, artista, precioCobre, precioPlata, precioOro, canEscenario));
+                if (campos.length == 9) {
+                        String nombre = campos[0];
+                        LocalDate fecha = LocalDate.parse(campos[1]);
+                        LocalTime hora = LocalTime.parse(campos[2]);
+                        String lugar = campos[3];
+                        String artista = campos[4];
+                        int precioCobre = Integer.parseInt(campos[5]);
+                        int precioPlata = Integer.parseInt(campos[6]);
+                        int precioOro = Integer.parseInt(campos[7]);
+                        int canEscenario = Integer.parseInt(campos[8]);
+                        eventos.add(new Evento(nombre, fecha, hora, lugar, artista, precioCobre, precioPlata, precioOro, canEscenario));
+                }
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + archivoEventos);
             e.printStackTrace();
         }
         return eventos;

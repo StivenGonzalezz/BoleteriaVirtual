@@ -19,10 +19,10 @@ public class Boleteria {
         Taquilla taquilla = new Taquilla();
         createLoggFile();
 
-        ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
-        //error al intentar leer el archivo de eventos
-        ArrayList<Evento> baseDatosEventos = new ArrayList<>();
         archivos.crearArchivoTexto();
+        ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
+        ArrayList<Evento> baseDatosEventos = archivos.leerArchivoEvents();
+
         int opcion = -1;
 
         while (opcion != 0) {

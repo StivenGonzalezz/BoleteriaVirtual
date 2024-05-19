@@ -1,6 +1,5 @@
 package application;
 
-import controller.MenuPrincipalController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,18 +13,13 @@ public class MenuPrincipalApplication extends Application{
   //  MenuPrincipalController menuPrincipalController = new MenuPrincipalController(ArrayList<Usuario> DatosUsuarios);
     @Override
     public void start(Stage stage) throws IOException {
-        MenuPrincipalController menuPrincipalController= new MenuPrincipalController();
-        //MenuPrincipalController.setVisble();
+
         FXMLLoader fxmlLoader = new FXMLLoader(MenuPrincipalApplication.class.getResource("viewMenuPrincipal.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("FUTURE AGENCY");
         stage.setScene(scene);
         stage.show();
     }
-// desde el menuprincipalcontroller se abrirán las demas vistas//
-    //public static void main(String[] args) {
-      //  launch(MenuPrincipalController(//lanza el que tiene el arraylist por parametro//));
-    //}
     public static void main(String[] args) {
         launch();
     }

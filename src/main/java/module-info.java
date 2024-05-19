@@ -5,6 +5,5 @@ module com.example.boleteriavirtual {
     exports application;
     exports controller;
     opens controller to javafx.fxml;
-    opens clases;
 }
 

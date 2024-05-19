@@ -98,18 +98,13 @@
                   </TextField>
                </children>
             </GridPane>
-            <VBox layoutX="814.0" layoutY="182.0" prefHeight="77.0" prefWidth="108.0" spacing="30.0" AnchorPane.rightAnchor="78.0" />
+            <VBox layoutX="814.0" layoutY="182.0" prefHeight="246.0" prefWidth="121.0" spacing="30.0" AnchorPane.rightAnchor="63.0" />
             <Label contentDisplay="CENTER" layoutX="357.0" layoutY="64.0" text="REGISTRO CLIENTE" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
             </Label>
             <Button fx:id="btnVolver" layoutX="862.0" layoutY="25.0" mnemonicParsing="false" onAction="#volver" prefHeight="39.0" prefWidth="108.0" text="Volver">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnConRegUser" layoutX="808.0" layoutY="396.0" mnemonicParsing="false" onAction="#registroUser" prefHeight="39.0" prefWidth="108.0" text="Continuar">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

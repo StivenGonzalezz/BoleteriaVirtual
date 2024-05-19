@@ -13,12 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MenuPrincipalController {
-
-    Arraylist<Usuario> DatosUsuarios;
-    MenuPrincipalController menuPrincipalController = new MenuPrincipalController();
 
     @FXML
     private Button btnClickAdministrador;
@@ -34,11 +30,8 @@ public class MenuPrincipalController {
     @FXML
     private PasswordField txtPassword;
 
-
     @FXML
     public void ingresar(ActionEvent actionEvent) throws IOException {
-        MenuClienteController menuClienteController= new MenuClienteController(baseDatosUsuarios);
-        //menuClienteController.setVisible(true);
 
         String documento = "12345";
         String contrasenia = "12345";
@@ -49,8 +42,7 @@ public class MenuPrincipalController {
             alert.setTitle("FUTURE AGENCY");
             alert.setContentText("Sesión iniciada.");
             alert.show();
-            String link = "/application/viewMenuCliente.fxml";
-            Parent fxml = avanzar(link);
+            Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewMenuCliente.fxml"));
             anchorPane.getChildren().removeAll();
             anchorPane.getChildren().setAll(fxml);
 
@@ -72,48 +64,19 @@ public class MenuPrincipalController {
 
     @FXML
     public void clickAdministrador(ActionEvent actionEvent) throws IOException {
-        LoginAdministradorController loginAdministradorController= new LoginAdministradorController(baseDatosUsuarios);
-        //loginAdministradorController.setVisible();
-        String link = "/application/viewLoginAdministrador.fxml";
-        Parent fxml = avanzar(link);
+        Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewLoginAdministrador.fxml"));
         anchorPane.getChildren().removeAll();
         anchorPane.getChildren().setAll(fxml);
     }
 
     @FXML
     public void registrar(ActionEvent actionEvent) throws IOException {
-        RegistroClienteController registroClienteController = new RegistroClienteController(baseDatosUsuarios);
-        //registroClienteController.setVisible();
-        String link = "/application/viewRegistroCliente.fxml";
-        Parent fxml = avanzar(link);
+        Parent fxml = FXMLLoader.load(getClass().getResource("/application/viewRegistroCliente.fxml"));
         anchorPane.getChildren().removeAll();
         anchorPane.getChildren().setAll(fxml);
     }
 
     @FXML
     public void eventKey(Event event) {
-    }
-    // Constructor vacio
-    public MenuPrincipalController() {
-        //Hacer visible la clase
-    }
-    // Constructor que pasa el arraylist
-    public MenuPrincipalController(Arraylist<Usuario> baseDatosUsuarios) {
-     // hacer visible la clase
-     this.DatosUsuarios = DatosUsuarios;
-     }
-
-    public Parent avanzar (String link) throws IOException {
-        Parent avanzar = null;
-        if (link == "/application/viewMenuCliente.fxml") {
-            avanzar = FXMLLoader.load(getClass().getResource("/application/viewMenuCliente.fxml"));
-        }else if (link == "/application/viewLoginAdministrador.fxml") {
-            avanzar = FXMLLoader.load(getClass().getResource("/application/viewLoginAdministrador.fxml"));
-        }else if (link == "/application/viewRegistroCliente.fxml"){
-            avanzar = FXMLLoader.load(getClass().getResource("/application/viewRegistroCliente.fxml"));
-        }
-
-        return avanzar;
-
     }
 }

@@ -6,5 +6,7 @@ module com.example.boleteriavirtual {
     exports controller;
     opens controller to javafx.fxml;
     opens clases;
+    exports Logica;
+    opens Logica to javafx.fxml;
 }
 

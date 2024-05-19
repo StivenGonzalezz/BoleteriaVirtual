@@ -1,5 +1,6 @@
 package controller;
 
+import Logica.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

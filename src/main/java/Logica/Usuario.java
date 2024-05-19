@@ -1,4 +1,4 @@
-package controller;
+package Logica;
 
 
 public class Usuario {

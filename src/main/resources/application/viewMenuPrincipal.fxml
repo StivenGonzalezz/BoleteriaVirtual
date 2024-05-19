@@ -11,50 +11,50 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPrincipalController">
    <children>
-      <Button fx:id="btnClickAdministrador" layoutX="402.0" layoutY="719.0" mnemonicParsing="false" onAction="#clickAdministrador" prefHeight="64.0" prefWidth="200.0" text="Identificate aquí">
+      <Button fx:id="btnClickAdministrador" layoutX="423.0" layoutY="719.0" mnemonicParsing="false" onAction="#clickAdministrador" prefHeight="50.0" prefWidth="160.0" text="Identificate aquí">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Label contentDisplay="CENTER" layoutX="110.0" layoutY="259.0" text="Usuario:" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="110.0" layoutY="300.0" text="Usuario:" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnLogin" layoutX="748.0" layoutY="448.0" mnemonicParsing="false" onAction="#ingresar" prefHeight="64.0" prefWidth="147.0" text="Ingresar">
+      <Button fx:id="btnLogin" layoutX="820.0" layoutY="471.0" mnemonicParsing="false" onAction="#ingresar" prefHeight="50.0" prefWidth="110.0" text="Ingresar">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Label contentDisplay="CENTER" layoutX="123.0" layoutY="683.0" text="¿Eres administrador?" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="123.0" layoutY="689.0" text="¿Eres administrador?" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="278.0" fitWidth="503.0" layoutX="251.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="278.0" fitWidth="503.0" layoutX="251.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/logo2.png" />
          </image>
       </ImageView>
-      <TextField fx:id="txtUser" layoutX="110.0" layoutY="303.0" onKeyTyped="#eventKey" prefHeight="50.0" prefWidth="527.0">
+      <TextField fx:id="txtUser" layoutX="110.0" layoutY="327.0" onKeyTyped="#eventKey" prefHeight="43.0" prefWidth="620.0">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <Label contentDisplay="CENTER" layoutX="110.0" layoutY="365.0" text="Contraseña:" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="110.0" layoutY="400.0" text="Contraseña:" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="295.0" layoutY="575.0" text="¿No estás registrado?" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="337.0" layoutY="570.0" text="¿No estás registrado?" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnRegistrar" layoutX="566.0" layoutY="561.0" mnemonicParsing="false" onAction="#registrar" prefHeight="64.0" prefWidth="147.0" text="Click aquí">
+      <Button fx:id="btnRegistrar" layoutX="561.0" layoutY="560.0" mnemonicParsing="false" onAction="#registrar" prefHeight="50.0" prefWidth="120.0" text="Click aquí">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <PasswordField fx:id="txtPassword" layoutX="110.0" layoutY="420.0" onKeyTyped="#eventKey" prefHeight="50.0" prefWidth="527.0">
+      <PasswordField fx:id="txtPassword" layoutX="110.0" layoutY="428.0" onKeyTyped="#eventKey" prefHeight="43.0" prefWidth="620.0">
          <font>
             <Font size="15.0" />
          </font>

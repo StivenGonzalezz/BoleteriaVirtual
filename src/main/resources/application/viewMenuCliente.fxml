@@ -17,22 +17,22 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="117.0" layoutY="330.0" text="•      Catálogo Eventos:" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="117.0" layoutY="338.0" text="•      Catálogo Eventos:" textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="117.0" layoutY="507.0" text="•      Taquilla Virtual:" textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="117.0" layoutY="523.0" text="•      Taquilla Virtual:" textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Button fx:id="btnEntrarPanelEstudiante" layoutX="658.0" layoutY="329.0" mnemonicParsing="false" onAction="#EntrarPanelEstudiante" prefHeight="39.0" prefWidth="225.0" text="Entrar">
+      <Button fx:id="btnEntrarCatalogoEventos" layoutX="658.0" layoutY="337.0" mnemonicParsing="false" onAction="#EntrarCatalogoEventos" prefHeight="39.0" prefWidth="225.0" text="Entrar">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnEntrarPanelDocente" layoutX="658.0" layoutY="506.0" mnemonicParsing="false" onAction="#EntrarPanelDocente" prefHeight="39.0" prefWidth="225.0" text="Entrar">
+      <Button fx:id="btnEntrarTaquillaVirtual" layoutX="658.0" layoutY="522.0" mnemonicParsing="false" onAction="#EntrarTaquillaVirtual" prefHeight="39.0" prefWidth="225.0" text="Entrar">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -42,12 +42,12 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="330.0" text="1)." textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="338.0" text="1)." textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="507.0" text="2)." textAlignment="CENTER">
+      <Label contentDisplay="CENTER" layoutX="132.0" layoutY="523.0" text="2)." textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>

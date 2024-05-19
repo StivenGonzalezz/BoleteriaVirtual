@@ -8,108 +8,112 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistroClienteController">
    <children>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="396.0" prefWidth="998.0">
+      <GridPane layoutX="-37.0" layoutY="129.0" prefHeight="506.0" prefWidth="835.0" AnchorPane.leftAnchor="-9.0" AnchorPane.rightAnchor="202.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="121.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="363.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <GridPane layoutX="-60.0" layoutY="174.0" prefHeight="263.0" prefWidth="1094.0" AnchorPane.leftAnchor="-60.0" AnchorPane.rightAnchor="208.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="121.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="363.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Contraseña:" GridPane.rowIndex="3">
-                     <padding>
-                        <Insets right="6.0" />
-                     </padding>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-                  <Label text="Apellidos:" GridPane.rowIndex="1">
-                     <padding>
-                        <Insets right="6.0" />
-                     </padding>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtApellidosCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-                  <Label text="Nombre:">
-                     <padding>
-                        <Insets right="6.0" />
-                     </padding>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtNombreCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-                  <Label text="Correo Electrónico" GridPane.rowIndex="2">
-                     <padding>
-                        <Insets right="6.0" />
-                     </padding>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtCorreoElectronicoCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-                  <Label text="Repetir Contraseña:" GridPane.rowIndex="4">
-                     <padding>
-                        <Insets right="6.0" />
-                     </padding>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtRepetirPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </GridPane>
-            <VBox layoutX="814.0" layoutY="182.0" prefHeight="246.0" prefWidth="121.0" spacing="30.0" AnchorPane.rightAnchor="63.0" />
-            <Label contentDisplay="CENTER" layoutX="357.0" layoutY="64.0" text="REGISTRO CLIENTE" textAlignment="CENTER">
+            <Label text="Contraseña:" GridPane.rowIndex="3">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
                <font>
-                  <Font name="System Bold" size="30.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btnVolver" layoutX="862.0" layoutY="25.0" mnemonicParsing="false" onAction="#volver" prefHeight="39.0" prefWidth="108.0" text="Volver">
+            <TextField fx:id="txtPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font size="15.0" />
                </font>
-            </Button>
+            </TextField>
+            <Label text="Apellidos:" GridPane.rowIndex="1">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtApellidosCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label text="Nombre:">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNombreCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label text="Correo Electrónico" GridPane.rowIndex="2">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCorreoElectronicoCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label text="Repetir Contraseña:" GridPane.rowIndex="4">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtRepetirPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
          </children>
-      </AnchorPane>
+      </GridPane>
+      <Button fx:id="btnRegistrar" layoutX="437.0" layoutY="663.0" mnemonicParsing="false" onAction="#registrar" prefHeight="56.0" prefWidth="128.0" text="Registrar">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnVolver" layoutX="862.0" layoutY="25.0" mnemonicParsing="false" onAction="#volver" prefHeight="39.0" prefWidth="108.0" text="Volver">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label contentDisplay="CENTER" layoutX="366.0" layoutY="64.0" text="REGISTRO CLIENTE" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnLimpiar" layoutX="831.0" layoutY="363.0" mnemonicParsing="false" onAction="#Limpiar" prefHeight="39.0" prefWidth="108.0" text="Limpiar">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

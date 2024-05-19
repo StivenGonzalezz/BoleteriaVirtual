@@ -97,8 +97,4 @@ public class PanelClienteController {
     @FXML
     public void seleccionar(MouseEvent event) {
     }
-
-    public ObservableList<String> getListaEstudiantes() {
-        return listaEstudiantes;
-    }
 }

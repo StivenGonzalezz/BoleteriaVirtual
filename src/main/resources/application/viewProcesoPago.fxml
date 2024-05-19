@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProcesoPagoController">
+    <children>
+            <GridPane layoutX="-44.0" layoutY="198.0" prefHeight="165.0" prefWidth="539.0" AnchorPane.leftAnchor="-44.0" AnchorPane.rightAnchor="105.0">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="20.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="20.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <Label text="Número Tarjeta:" GridPane.rowIndex="1">
+                        <padding>
+                            <Insets right="6.0" />
+                        </padding>
+                        <font>
+                            <Font size="20.0" />
+                        </font>
+                    </Label>
+                    <Label text="Entidad:">
+                        <padding>
+                            <Insets right="6.0" />
+                        </padding>
+                        <font>
+                            <Font size="20.0" />
+                        </font>
+                    </Label>
+            <ComboBox fx:id="ComboBoxEntidades" prefHeight="33.0" prefWidth="292.0" GridPane.columnIndex="1" />
+            <Label text="Fecha Expiración:" GridPane.rowIndex="2">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="CVC:" GridPane.rowIndex="3">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCvcTarjeta" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="txtNumeroTarjeta" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <DatePicker fx:id="datePickerFechaExpiracionTarjeta" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                </children>
+            </GridPane>
+            <Button fx:id="btnVolver" layoutX="455.0" layoutY="30.0" mnemonicParsing="false" onAction="#volver" prefHeight="39.0" prefWidth="108.0" text="Volver">
+                <font>
+                    <Font name="System Bold" size="15.0" />
+                </font>
+            </Button>
+      <Button fx:id="btnPagar" layoutX="455.0" layoutY="392.0" mnemonicParsing="false" onAction="#pagar" prefHeight="39.0" prefWidth="108.0" text="Pagar">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label contentDisplay="CENTER" layoutX="158.0" layoutY="118.0" text="MÉTODOS DE PAGO" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

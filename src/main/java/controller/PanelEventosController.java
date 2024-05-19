@@ -120,8 +120,4 @@ public class PanelEventosController {
     @FXML
     public void seleccionar(MouseEvent event) {
     }
-
-    public ObservableList<String> getListaEstudiantes() {
-        return listaEstudiantes;
-    }
 }

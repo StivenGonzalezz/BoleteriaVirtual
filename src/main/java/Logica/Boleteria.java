@@ -37,7 +37,7 @@ public class Boleteria {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del sistema");
-                    //logger.info("Cliente escoge opcion de salida del sistema");
+                    logger.info("Cliente escoge opcion de salida del sistema");
                     break;
                 case 1:
                     usuario(scanner, baseDatosUsuarios, baseDatosEventos, archivos, taquilla);

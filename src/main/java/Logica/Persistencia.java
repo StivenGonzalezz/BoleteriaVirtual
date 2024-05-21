@@ -61,7 +61,7 @@ public class Persistencia {
 
         try (BufferedReader br = new BufferedReader(new FileReader(archivoEventos))) {
             String linea;
-            while ((linea = br.readLine()) != null) {
+            while((linea = br.readLine()) != null) {
                 String[] campos = linea.split(",");
                 if (campos.length == 9) {
                         String nombre = campos[0];

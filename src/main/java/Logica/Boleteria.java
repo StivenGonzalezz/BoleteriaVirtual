@@ -1,9 +1,11 @@
 package Logica;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -17,7 +19,7 @@ public class Boleteria {
         Scanner scanner = new Scanner(System.in);
         Persistencia archivos = new Persistencia();
         Taquilla taquilla = new Taquilla();
-        createLoggFile();
+        createLogFile();
 
         archivos.crearArchivoTexto();
         ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
@@ -190,20 +192,25 @@ public class Boleteria {
     //SECCION Y COMANDOS DE LOGGS
     private static Logger logger = Logger.getLogger("MyLog");
 
-    private static void createLoggFile() {
+    private static void createLogFile() {
         FileHandler fh;
         try {
-            //ruta donde se guardara el logg
-            fh = new FileHandler("src\\main\\java\\DataBase\\MyLoggerFile.log");
 
-            //Bloque de inicializacion del documento donde se guardaran los Loggs
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = dateFormat.format(new Date());
+
+            String filePath = "src/main/java/DataBase/logs-" + dateString + ".log";
+
+            fh = new FileHandler(filePath);
+
+            // Bloque de inicializacion del documento donde se guardaran los Loggs
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
 
             logger.info("Creando logger");
-        }catch (Exception e){
-            logger.log(Level.WARNING,"Exception ::",e);
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Exception ::", e);
         }
         logger.info("Logger creado\n\n");
     }

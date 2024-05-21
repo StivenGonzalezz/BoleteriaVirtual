@@ -61,19 +61,22 @@ public class Persistencia {
 
         try (BufferedReader br = new BufferedReader(new FileReader(archivoEventos))) {
             String linea;
-            while((linea = br.readLine()) != null) {
+            while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(",");
-                if (campos.length == 9) {
-                        String nombre = campos[0];
-                        LocalDate fecha = LocalDate.parse(campos[1]);
-                        LocalTime hora = LocalTime.parse(campos[2]);
-                        String lugar = campos[3];
-                        String artista = campos[4];
-                        int precioCobre = Integer.parseInt(campos[5]);
-                        int precioPlata = Integer.parseInt(campos[6]);
-                        int precioOro = Integer.parseInt(campos[7]);
-                        int canEscenario = Integer.parseInt(campos[8]);
-                        eventos.add(new Evento(nombre, fecha, hora, lugar, artista, precioCobre, precioPlata, precioOro, canEscenario));
+                if (campos.length == 12) {
+                    String nombre = campos[0];
+                    LocalDate fecha = LocalDate.parse(campos[1]);
+                    LocalTime hora = LocalTime.parse(campos[2]);
+                    String lugar = campos[3];
+                    String artista = campos[4];
+                    int precioCobre = Integer.parseInt(campos[5]);
+                    int precioPlata = Integer.parseInt(campos[6]);
+                    int precioOro = Integer.parseInt(campos[7]);
+                    int canEscenario = Integer.parseInt(campos[8]);
+                    int canCobre = Integer.parseInt(campos[9]);
+                    int canPlata = Integer.parseInt(campos[10]);
+                    int canOro = Integer.parseInt(campos[11]);
+                    eventos.add(new Evento(nombre, fecha, hora, lugar, artista, precioCobre, precioPlata, precioOro, canEscenario, canCobre, canPlata, canOro));
                 }
             }
         }catch (IOException e) {
@@ -83,7 +86,7 @@ public class Persistencia {
         return eventos;
     }
 
-    public  ArrayList<Usuario> leerArchivoUsers() {
+    public ArrayList<Usuario> leerArchivoUsers() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         String archivoUsuarios = "src\\main\\java\\DataBase\\archivoUsers.txt";
 
@@ -91,19 +94,20 @@ public class Persistencia {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(",");
-                String nombre = campos[0];
-                String apellidos = campos[1];
-                String documento = campos[2];
-                String contrasena = campos[3];
-                String correo = campos[4];
-                usuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
+                if (campos.length == 5) {
+                    String nombre = campos[0];
+                    String apellidos = campos[1];
+                    String documento = campos[2];
+                    String contrasena = campos[3];
+                    String correo = campos[4];
+                    usuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
+                } else {
+                    System.err.println("Línea inválida en el archivo de usuarios: " + linea);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return usuarios;
     }
-
 }
-
-

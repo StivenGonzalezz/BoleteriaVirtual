@@ -9,9 +9,9 @@ public class Taquilla {
 
     }
 
-    public  int venderTiquetes(ArrayList<Evento> baseDatosEventos) {
+    public int venderTiquetes(ArrayList<Evento> baseDatosEventos, Persistencia archivos) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Cual es el nombre del evento al que quiere asistir:");
+        System.out.print("Cual es el nombre del evento al que quiere asistir:");
         String nombreEventoBus = scanner.nextLine();
         int i = 0;
         int total = 0;
@@ -27,6 +27,7 @@ public class Taquilla {
                 int cantidad = 0;
                 while (opcion != 0) {
                     System.out.println("¿Qué tipo de boleto desea comprar?");
+                    System.out.println("Cobre:"+evento.getCobreDispo()+", Plata:"+evento.getPlataDispo()+", Oro:"+evento.getOroDispo());
                     System.out.println("1. Cobre");
                     System.out.println("2. Plata");
                     System.out.println("3. Oro");
@@ -37,39 +38,41 @@ public class Taquilla {
                         cantidad = scanner.nextInt();
                     }
                     switch (opcion) {
+                        case 0:
+                            break;
                         case 1:
-                            total = total + venderCobre(cantidad, cobre, baseDatosEventos);
+                            total += venderCobre(cantidad, cobre, baseDatosEventos);
                             break;
                         case 2:
-                            total = total + venderPlata(cantidad, plata, baseDatosEventos);
+                            total += venderPlata(cantidad, plata, baseDatosEventos);
                             break;
                         case 3:
-                            total = total + venderOro(cantidad, oro, baseDatosEventos);
-                            break;
-                        case 0:
-                            opcion = 0;
+                            total += venderOro(cantidad, oro, baseDatosEventos);
                             break;
                         default:
                             System.out.println("Opción no válida");
                             break;
                     }
                 }
+                archivos.escribirArchivoEvents(baseDatosEventos); // Guardar los cambios
+                break;
             }
             i++;
         }
-
         return total;
     }
 
     private static int venderCobre(int cantidad, int cobre, ArrayList<Evento> baseDatosEventos) {
         int totalCobre = 0;
         for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.6) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
+            if (cantidad <= evento.getCobreDispo()) {
+                evento.setCobreDispo(evento.getCobreDispo() - cantidad);
                 totalCobre = cantidad * cobre;
-                System.out.println("Se han vendido " + cantidad + " boletos cobre");
+                System.out.println("Se han vendido " + cantidad + " boletos de cobre.");
+            } else if (evento.getCobreDispo() == 0) {
+                System.out.println("Ya no hay boletos cobre disponibles.");
             } else {
-                System.out.println("Ya no hay boletos cobre disponibles");
+                System.out.println("Quedan " + evento.getCobreDispo() + " tiquetes cobre, su venta de " + cantidad + " tiquetes cobre fue rechazada.");
             }
         }
         return totalCobre;
@@ -78,12 +81,14 @@ public class Taquilla {
     private static int venderPlata(int cantidad, int plata, ArrayList<Evento> baseDatosEventos) {
         int totalPlata = 0;
         for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.3) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalPlata += cantidad * plata;
+            if (cantidad <= evento.getPlataDispo()) {
+                evento.setPlataDispo(evento.getPlataDispo() - cantidad);
+                totalPlata = cantidad * plata;
                 System.out.println("Se han vendido " + cantidad + " boletos de plata.");
+            } else if (evento.getPlataDispo() == 0) {
+                System.out.println("Ya no hay boletos plata disponibles.");
             } else {
-                System.out.println("Ya no hay boletos plata disponibles");
+                System.out.println("Quedan " + evento.getPlataDispo() + " tiquetes plata, su venta de " + cantidad + " tiquetes plata fue rechazada.");
             }
         }
         return totalPlata;
@@ -92,12 +97,14 @@ public class Taquilla {
     private static int venderOro(int cantidad, int oro, ArrayList<Evento> baseDatosEventos) {
         int totalOro = 0;
         for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.1) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalOro += cantidad * oro;
+            if (cantidad <= evento.getOroDispo()) {
+                evento.setOroDispo(evento.getOroDispo() - cantidad);
+                totalOro = cantidad * oro;
                 System.out.println("Se han vendido " + cantidad + " boletos de oro.");
+            } else if (evento.getOroDispo() == 0) {
+                System.out.println("Ya no hay boletos oro disponibles.");
             } else {
-                System.out.println("Ya no hay boletos oro disponibles");
+                System.out.println("Quedan " + evento.getOroDispo() + " tiquetes oro, su venta de " + cantidad + " tiquetes oro fue rechazada.");
             }
         }
         return totalOro;

@@ -18,7 +18,7 @@ public class Evento {
     private int plataDispo;
     private int oroDispo;
 
-    public Evento(String nombre, LocalDate fecha, LocalTime hora, String lugar, String artista, int precioCobre, int precioPlata, int precioOro, int canEscenario) {
+    public Evento(String nombre, LocalDate fecha, LocalTime hora, String lugar, String artista, int precioCobre, int precioPlata, int precioOro, int canEscenario, int cobreDispo, int plataDispo, int oroDispo) {
         this.nombre = nombre;
         this.fecha = fecha;
         this.hora = hora;
@@ -28,10 +28,12 @@ public class Evento {
         this.precioPlata = precioPlata;
         this.precioOro = precioOro;
         this.canEscenario = canEscenario;
-        this.cobreDispo = (int) (canEscenario * 0.6);
-        this.plataDispo = (int) (canEscenario * 0.3);
-        this.oroDispo = (int) (canEscenario * 0.1);
+        this.cobreDispo = cobreDispo;
+        this.plataDispo = plataDispo;
+        this.oroDispo = oroDispo;
     }
+
+
 
     public String getNombre() {
         return nombre;
@@ -84,6 +86,6 @@ public class Evento {
     }
 
     public String toFileString() {
-        return nombre+","+fecha+","+hora+","+lugar+","+artista+","+precioCobre+","+precioPlata+","+precioOro+","+canEscenario;
+        return nombre+","+fecha+","+hora+","+lugar+","+artista+","+precioCobre+","+precioPlata+","+precioOro+","+canEscenario+","+cobreDispo+","+plataDispo+","+oroDispo;
     }
 }

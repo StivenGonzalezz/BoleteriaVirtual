@@ -1,5 +1,9 @@
 package controller;
 
+import Logica.Boleteria;
+import Logica.Evento;
+import Logica.Persistencia;
+import Logica.Usuario;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -12,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MenuPrincipalController {
 
@@ -32,10 +37,14 @@ public class MenuPrincipalController {
     @FXML
     public void ingresar(ActionEvent actionEvent) throws IOException {
 
-        String documento = "12345";
-        String contrasenia = "12345";
+        Persistencia archivos = new Persistencia();
+        ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
 
-        if (txtPassword.getText().equals(contrasenia) && txtUser.getText().equals(documento)) {
+
+        String documento = txtUser.getText();
+        Usuario usuario = Boleteria.buscarUsuario(documento, baseDatosUsuarios, archivos);
+
+        if (usuario != null && txtPassword.getText().equals(usuario.getContrasena())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(null);
             alert.setTitle("FUTURE AGENCY");

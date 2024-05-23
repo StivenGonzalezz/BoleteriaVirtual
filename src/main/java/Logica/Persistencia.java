@@ -10,12 +10,15 @@ public class Persistencia {
 
     File archivoEvents;
     File achivoUsers;
+    File achivoBoletas;
 
     public void crearArchivoTexto() {
         archivoEvents = new File("src\\main\\java\\DataBase\\archivoEvents.txt");
         achivoUsers = new File("src\\main\\java\\DataBase\\archivoUsers.txt");
+        achivoBoletas = new File("src\\main\\java\\DataBase\\archivoBoletas.txt");
+
         try {
-            if (archivoEvents.createNewFile() && achivoUsers.createNewFile()) {
+            if (archivoEvents.createNewFile() && achivoUsers.createNewFile() && achivoBoletas.createNewFile()) {
                 System.out.println("se crearon los archivos");
             } else {
                 System.out.println("error en la creacion de los archivos");
@@ -52,6 +55,21 @@ public class Persistencia {
         } catch (IOException e) {
             e.printStackTrace(System.out);
             System.out.println("Error al escribir los usuarios en el archivo.");
+        }
+    }
+
+    public void escribirArchivoBoletas(ArrayList<Boleatas> baseDatosBoletas) {
+        try {
+            FileWriter escritura = new FileWriter("src\\main\\java\\DataBase\\archivoBoletas.txt", true); // Append mode
+            BufferedWriter bufferEscritura = new BufferedWriter(escritura);
+            for (Boleatas boleta : baseDatosBoletas) {
+                bufferEscritura.write(boleta.toFileString() + "\n");
+            }
+            bufferEscritura.close();
+            System.out.println("Boletas escritas en el archivo correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+            System.out.println("Error al escribir las boletas en el archivo.");
         }
     }
 

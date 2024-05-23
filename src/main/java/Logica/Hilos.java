@@ -1,88 +1,116 @@
 package Logica;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import javax.swing.JOptionPane;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Hilos implements Runnable {
+public class Hilos extends Thread {
+    private final Semaphore semaphore;
+    private final int id;
+    private static final AtomicInteger waitingCount = new AtomicInteger(0);
+    private static String nombreUser;
+    private static String apellidosUser;
+    private static String documentoeUser;
+    private static String contrasenaUser;
+    private static String correoUser;
 
-    private int usuarioId;
-    private Semaphore semaforo;
-    private Semaphore semaforoScanner;
-    private ArrayList<Evento> baseDatosEventos;
-
-    public Hilos(int usuarioId, Semaphore semaforo, Semaphore semaforoScanner, ArrayList<Evento> baseDatosEventos) {
-        this.usuarioId = usuarioId;
-        this.semaforo = semaforo;
-        this.semaforoScanner = semaforoScanner;
-        this.baseDatosEventos = baseDatosEventos;
+    public Hilos(Semaphore semaphore, int id) {
+        this.semaphore = semaphore;
+        this.id = id;
     }
 
     @Override
     public void run() {
+        System.out.println("Cliente " + id + " está esperando en fila");
+        int waiting = waitingCount.incrementAndGet();
+        System.out.println("Clientes esperando: " + waiting);
+
         try {
-            semaforo.acquire();
-            System.out.println("Usuario " + usuarioId + " está comprando boletos.");
+            semaphore.acquire();
+            waiting = waitingCount.decrementAndGet();
+            System.out.println("Clientes esperando: " + waiting);
 
+            System.out.println("Cliente " + id + " está en la ventanilla");
 
-            // Asegura que solo un hilo accede al Scanner a la vez
-            semaforoScanner.acquire();
-            venderTiquetes(baseDatosEventos);
-            semaforoScanner.release();
+            // Proporcionar instancias de las bases de datos y la persistencia
+            Persistencia archivos = new Persistencia();
+            ArrayList<Evento> baseDatosEventos = archivos.leerArchivoEvents();
+            ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
 
-            System.out.println("Usuario " + usuarioId + " ha terminado de comprar.");
-            semaforo.release();
+            int total = venderTiquetes(baseDatosEventos, baseDatosUsuarios, archivos);
+            System.out.println("Total vendido por Cliente " + id + ": " + total);
+            System.out.println("Cliente " + id + " ha salido de la ventanilla");
+            semaphore.release();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public int venderTiquetes(ArrayList<Evento> baseDatosEventos) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Usuario " + usuarioId + ": ¿Cuál es el nombre del evento al que quiere asistir?");
-        String nombreEventoBus = scanner.nextLine();
+    public int venderTiquetes(ArrayList<Evento> baseDatosEventos, ArrayList<Usuario> baseDatosUsuarios, Persistencia archivos) {
+        String nombreEventoBus = JOptionPane.showInputDialog("Cual es el nombre del evento al que quiere asistir:");
         int i = 0;
         int total = 0;
+        ArrayList<Boleatas> boletosVendidos = new ArrayList<>();
         while (i < baseDatosEventos.size()) {
             Evento evento = baseDatosEventos.get(i);
             if (evento.getNombre().equalsIgnoreCase(nombreEventoBus)) {
-                int cobre = evento.getPrecioCobre();
-                int plata = evento.getPrecioPlata();
-                int oro = evento.getPrecioOro();
-                System.out.println("Bienvenido a la venta de boletos.");
-                total = 0;
-                int opcion = -1;
-                int cantidad = 0;
-                while (opcion != 0) {
-                    System.out.println("¿Qué tipo de boleto desea comprar?");
-                    System.out.println("1. Cobre");
-                    System.out.println("2. Plata");
-                    System.out.println("3. Oro");
-                    System.out.println("0. Salir");
-                    opcion = scanner.nextInt();
-                    if (opcion != 0) {
-                        System.out.println("¿Cuántos boletos desea comprar?");
-                        cantidad = scanner.nextInt();
+                nombreUser = JOptionPane.showInputDialog("Nombre de usuario:");
+                documentoeUser = JOptionPane.showInputDialog("Documento de usuario:");
+                contrasenaUser = JOptionPane.showInputDialog("Contraseña de usuario:");
+
+                boolean usuarioExistente = false;
+                for (Usuario usuario : baseDatosUsuarios) {
+                    if (usuario.getNombre().equals(nombreUser) && usuario.getContrasena().equals(contrasenaUser) && usuario.getDocumento().equals(documentoeUser)) {
+                        apellidosUser = usuario.getApellidos();
+                        correoUser = usuario.getCorreo();
+                        usuarioExistente = true;
+                        break;
                     }
-                    switch (opcion) {
-                        case 1:
-                            total += venderCobre(cantidad, cobre, baseDatosEventos);
-                            break;
-                        case 2:
-                            total += venderPlata(cantidad, plata, baseDatosEventos);
-                            break;
-                        case 3:
-                            total += venderOro(cantidad, oro, baseDatosEventos);
-                            break;
-                        case 0:
-                            opcion = 0;
-                            break;
-                        default:
-                            System.out.println("Opción no válida");
-                            break;
+                }
+
+                if (!usuarioExistente) {
+                    JOptionPane.showMessageDialog(null, "Usuario no existe");
+                } else {
+                    int cobre = evento.getPrecioCobre();
+                    int plata = evento.getPrecioPlata();
+                    int oro = evento.getPrecioOro();
+                    JOptionPane.showMessageDialog(null, "Bienvenido a la venta de boletos.");
+                    total = 0;
+                    int opcion = -1;
+                    int cantidad = 0;
+
+                    while (opcion != 0) {
+                        String[] options = {"Cobre", "Plata", "Oro", "Salir"};
+                        opcion = JOptionPane.showOptionDialog(null, "¿Qué tipo de boleto desea comprar?\nCobre: " + evento.getCobreDispo() + ", Plata: " + evento.getPlataDispo() + ", Oro: " + evento.getOroDispo(), "Venta de boletos",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+                        if (opcion != 3) {
+                            String cantidadStr = JOptionPane.showInputDialog("¿Cuántos boletos desea comprar?");
+                            cantidad = Integer.parseInt(cantidadStr);
+                        }
+
+                        switch (opcion) {
+                            case 0:
+                                total += venderCobre(cantidad, cobre, evento, boletosVendidos);
+                                break;
+                            case 1:
+                                total += venderPlata(cantidad, plata, evento, boletosVendidos);
+                                break;
+                            case 2:
+                                total += venderOro(cantidad, oro, evento, boletosVendidos);
+                                break;
+                            case 3:
+                                opcion = 0;
+                                break;
+                            default:
+                                JOptionPane.showMessageDialog(null, "Opción no válida");
+                                break;
+                        }
                     }
+                    archivos.escribirArchivoEvents(baseDatosEventos); // Guardar los cambios
+                    archivos.escribirArchivoBoletas(boletosVendidos); // Guardar los boletos vendidos
+                    break;
                 }
             }
             i++;
@@ -90,96 +118,68 @@ public class Hilos implements Runnable {
         return total;
     }
 
-    private int venderCobre(int cantidad, int cobre, ArrayList<Evento> baseDatosEventos) {
+    private int venderCobre(int cantidad, int cobre, Evento evento, ArrayList<Boleatas> boletosVendidos) {
         int totalCobre = 0;
-        for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.6) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalCobre = cantidad * cobre;
-                System.out.println("Se han vendido " + cantidad + " boletos cobre");
-            } else {
-                System.out.println("Ya no hay boletos cobre disponibles");
+        if (cantidad <= evento.getCobreDispo()) {
+            evento.setCobreDispo(evento.getCobreDispo() - cantidad);
+            totalCobre = cantidad * cobre;
+            String codigo;
+            for (int i = 0; i < cantidad; i++) {
+                codigo = evento.getNombre() + "-C-" + (evento.getCobreDispo() + i + 1);
+                boletosVendidos.add(new Boleatas(nombreUser, apellidosUser, documentoeUser, contrasenaUser, correoUser, codigo));
             }
+
+            JOptionPane.showMessageDialog(null, "Se han vendido " + cantidad + " boletos de cobre.");
+        } else if (evento.getCobreDispo() == 0) {
+            JOptionPane.showMessageDialog(null, "Ya no hay boletos cobre disponibles.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Quedan " + evento.getCobreDispo() + " tiquetes cobre, su venta de " + cantidad + " tiquetes cobre fue rechazada.");
         }
         return totalCobre;
     }
 
-    private int venderPlata(int cantidad, int plata, ArrayList<Evento> baseDatosEventos) {
+    private int venderPlata(int cantidad, int plata, Evento evento, ArrayList<Boleatas> boletosVendidos) {
         int totalPlata = 0;
-        for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.3) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalPlata += cantidad * plata;
-                System.out.println("Se han vendido " + cantidad + " boletos de plata.");
-            } else {
-                System.out.println("Ya no hay boletos plata disponibles");
+        if (cantidad <= evento.getPlataDispo()) {
+            evento.setPlataDispo(evento.getPlataDispo() - cantidad);
+            totalPlata = cantidad * plata;
+            String codigo;
+            for (int i = 0; i < cantidad; i++) {
+                codigo = evento.getNombre() + "-P-" + (evento.getPlataDispo() + i + 1);
+                boletosVendidos.add(new Boleatas(nombreUser, apellidosUser, documentoeUser, contrasenaUser, correoUser, codigo));
             }
+            JOptionPane.showMessageDialog(null, "Se han vendido " + cantidad + " boletos de plata.");
+        } else if (evento.getPlataDispo() == 0) {
+            JOptionPane.showMessageDialog(null, "Ya no hay boletos plata disponibles.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Quedan " + evento.getPlataDispo() + " tiquetes plata, su venta de " + cantidad + " tiquetes plata fue rechazada.");
         }
         return totalPlata;
     }
 
-    private int venderOro(int cantidad, int oro, ArrayList<Evento> baseDatosEventos) {
+    private int venderOro(int cantidad, int oro, Evento evento, ArrayList<Boleatas> boletosVendidos) {
         int totalOro = 0;
-        for (Evento evento : baseDatosEventos) {
-            if (cantidad <= evento.getCanEscenario() * 0.1) {
-                evento.setCanEscenario(evento.getCanEscenario() - cantidad);
-                totalOro += cantidad * oro;
-                System.out.println("Se han vendido " + cantidad + " boletos de oro.");
-            } else {
-                System.out.println("Ya no hay boletos oro disponibles");
+        if (cantidad <= evento.getOroDispo()) {
+            evento.setOroDispo(evento.getOroDispo() - cantidad);
+            totalOro = cantidad * oro;
+            String codigo;
+            for (int i = 0; i < cantidad; i++) {
+                codigo = evento.getNombre() + "-O-" + (evento.getOroDispo() + i + 1);
+                boletosVendidos.add(new Boleatas(nombreUser, apellidosUser, documentoeUser, contrasenaUser, correoUser, codigo));
             }
+            JOptionPane.showMessageDialog(null, "Se han vendido " + cantidad + " boletos de oro.");
+        } else if (evento.getOroDispo() == 0) {
+            JOptionPane.showMessageDialog(null, "Ya no hay boletos oro disponibles.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Quedan " + evento.getOroDispo() + " tiquetes oro, su venta de " + cantidad + " tiquetes oro fue rechazada.");
         }
         return totalOro;
     }
 
     public static void main(String[] args) {
-        ArrayList<Evento> baseDatosEventos = new ArrayList<>();
-
-        String nombre1 = "concierto A";
-        LocalDate fecha1 = LocalDate.parse("2024-12-12");
-        LocalTime hora1 = LocalTime.parse("10:20");;
-        String lugar1 = "calarca";
-        String artistas1 = "nxxz";
-        int precioCobre1 = 1500;
-        int precioPlata1 = 2000;
-        int precioOro1 = 2500;
-        int capacidad1 = 1250;
-
-        String nombre2 = "concierto B";
-        LocalDate fecha2 = LocalDate.parse("2023-12-10");
-        LocalTime hora2 = LocalTime.parse("08:20");;
-        String lugar2 = "Armenia";
-        String artistas2 = "War";
-        int precioCobre2 = 2000;
-        int precioPlata2 = 2500;
-        int precioOro2 = 3000;
-        int capacidad2 = 1500;
-
-        //baseDatosEventos.add(new Evento(nombre1, fecha1, hora1, lugar1, artistas1, precioCobre1, precioPlata1, precioOro1, capacidad1));
-        //baseDatosEventos.add(new Evento(nombre2, fecha2, hora2, lugar2, artistas2, precioCobre2, precioPlata2, precioOro2, capacidad2));
-
-
-        Semaphore semaforo = new Semaphore(1);
-        Semaphore semaforoScanner = new Semaphore(1);
-
-
-        Hilos hilo1 = new Hilos(1, semaforo, semaforoScanner, baseDatosEventos);
-        Hilos hilo2 = new Hilos(2, semaforo, semaforoScanner, baseDatosEventos);
-
-
-        Thread thread1 = new Thread(hilo1);
-        Thread thread2 = new Thread(hilo2);
-
-        thread1.start();
-        thread2.start();
-
-        try {
-            thread1.join();
-            thread2.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        Semaphore semaphore = new Semaphore(3);
+        for (int i = 1; i <= 10; i++) {
+            new Thread(new Hilos(semaphore, i)).start();
         }
-
-        System.out.println("Todos los usuarios han terminado de comprar.");
     }
 }

@@ -12,6 +12,7 @@ import java.util.logging.SimpleFormatter;
 
 public class Boleteria {
 
+
     public void inicio() {
 
         Scanner scanner = new Scanner(System.in);
@@ -22,6 +23,7 @@ public class Boleteria {
         archivos.crearArchivoTexto();
         ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
         ArrayList<Evento> baseDatosEventos = archivos.leerArchivoEvents();
+        //ArrayList<Boleatas> baseDatosBoletas = archivos.leerArchivoBoletas();
 
         int opcion = -1;
 
@@ -72,8 +74,8 @@ public class Boleteria {
                     System.out.println("Saliendo del panel usuario");
                     break;
                 case 1:
-
-                    taquilla.venderTiquetes(baseDatosEventos, archivos);
+                    //aqui pongo lo de hilos
+                    taquilla.venderTiquetes(baseDatosEventos, baseDatosUsuarios, archivos);
                     break;
                 case 2:
                     mostrarEventos(baseDatosEventos);

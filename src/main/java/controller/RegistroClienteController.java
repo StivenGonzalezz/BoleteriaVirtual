@@ -1,5 +1,8 @@
 package controller;
 
+import Logica.Boleteria;
+import Logica.Persistencia;
+import Logica.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class RegistroClienteController {
     @FXML
@@ -54,5 +60,29 @@ public class RegistroClienteController {
 
     @FXML
     public void registrar(ActionEvent actionEvent) {
+
+
+        Persistencia archivos = new Persistencia();
+        ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
+
+
+        if (txtNombreCliente.getText().isEmpty() || txtApellidosCliente.getText().isEmpty() ||
+                txtCorreoElectronicoCliente.getText().isEmpty() || txtPasswordCliente.getText().isEmpty() ||
+                txtRepetirPasswordCliente.getText().isEmpty()){
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("ERROR");
+            alert.setContentText("Ingrese todos campos.");
+            alert.show();
+
+        }else if ((!Objects.equals(txtPasswordCliente.getText(), txtRepetirPasswordCliente.getText()))){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("ERROR");
+            alert.setContentText("La contraseñas no coinciden");
+            alert.show();
+        }else{
+        }
     }
 }

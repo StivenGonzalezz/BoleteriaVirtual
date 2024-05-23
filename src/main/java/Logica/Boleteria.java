@@ -160,8 +160,7 @@ public class Boleteria {
         String contrasena = scanner.next();
         System.out.print("Correo:");
         String correo = scanner.next();
-        baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
-        archivos.escribirArchivoUsers(baseDatosUsuarios);
+
         System.out.println("Usuario agregado correctamente");
     }
 

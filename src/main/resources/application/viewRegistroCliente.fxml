@@ -21,11 +21,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Contraseña:" GridPane.rowIndex="3">
+            <Label text="Contraseña:" GridPane.rowIndex="4">
                <padding>
                   <Insets right="6.0" />
                </padding>
@@ -33,7 +34,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="txtPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="15.0" />
                </font>
@@ -67,7 +68,7 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <Label text="Correo Electrónico" GridPane.rowIndex="2">
+            <Label text="Correo Electrónico:" GridPane.rowIndex="3">
                <padding>
                   <Insets right="6.0" />
                </padding>
@@ -75,12 +76,12 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtCorreoElectronicoCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="txtCorreoElectronicoCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="15.0" />
                </font>
             </TextField>
-            <Label text="Repetir Contraseña:" GridPane.rowIndex="4">
+            <Label text="Repetir Contraseña:" GridPane.rowIndex="5">
                <padding>
                   <Insets right="6.0" />
                </padding>
@@ -88,7 +89,20 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtRepetirPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextField fx:id="txtRepetirPasswordCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label text="Documento:" GridPane.rowIndex="2">
+               <padding>
+                  <Insets right="6.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtDocumentoCliente" prefHeight="33.0" prefWidth="385.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="15.0" />
                </font>

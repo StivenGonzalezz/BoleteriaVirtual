@@ -28,6 +28,8 @@ public class RegistroClienteController {
     @FXML
     private TextField txtNombreCliente;
     @FXML
+    private TextField txtDocumentoCliente;
+    @FXML
     private TextField txtPasswordCliente;
     @FXML
     private TextField txtRepetirPasswordCliente;
@@ -83,6 +85,26 @@ public class RegistroClienteController {
             alert.setContentText("La contraseñas no coinciden");
             alert.show();
         }else{
+
+            String documento = txtDocumentoCliente.getText();
+            Usuario usuario = Boleteria.buscarUsuario(documento, baseDatosUsuarios, archivos);
+            if (usuario == null){
+
+                baseDatosUsuarios.add(new Usuario(txtNombreCliente.getText(), txtApellidosCliente.getText(), txtDocumentoCliente.getText(), txtPasswordCliente.getText(), txtCorreoElectronicoCliente.getText()));
+                archivos.escribirArchivoUsers(baseDatosUsuarios);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("REGISTRADO");
+                alert.setContentText("Registro exitoso");
+                alert.show();
+
+                txtDocumentoCliente.clear();
+                txtNombreCliente.clear();
+                txtApellidosCliente.clear();
+                txtCorreoElectronicoCliente.clear();
+                txtPasswordCliente.clear();
+                txtRepetirPasswordCliente.clear();
+            }
         }
     }
 }

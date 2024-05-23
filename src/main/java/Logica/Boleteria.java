@@ -37,7 +37,7 @@ public class Boleteria {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del sistema");
-                    logger.info("Cliente escoge opcion de salida del sistema");
+                    //logger.info("Cliente escoge opcion de salida del sistema");
                     break;
                 case 1:
                     usuario(scanner, baseDatosUsuarios, baseDatosEventos, archivos, taquilla);
@@ -82,27 +82,10 @@ public class Boleteria {
                     System.out.print("Documento:");
                     String documento = scanner.nextLine();
 
-                    boolean usuarioExistente = false;
-                    for (Usuario usuario : baseDatosUsuarios) {
-                        if (usuario.getDocumento().equals(documento)) {
-                            usuarioExistente = true;
-                            System.out.println("El usuario ya existe. No se puede agregar.");
-                            break;
-                        }
-                    }
+                    Usuario usuario = buscarUsuario(documento, baseDatosUsuarios, archivos);
 
-                    if (!usuarioExistente) {
-                        System.out.print("Nombres:");
-                        String nombre = scanner.nextLine();
-                        System.out.print("Apellidos:");
-                        String apellidos = scanner.nextLine();
-                        System.out.print("Contraseña:");
-                        String contrasena = scanner.next();
-                        System.out.print("Correo:");
-                        String correo = scanner.next();
-                        baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
-                        archivos.escribirArchivoUsers(baseDatosUsuarios);
-                        System.out.println("Usuario agregado correctamente");
+                    if (usuario==null) {
+                        crearUsuario(scanner, documento, baseDatosUsuarios, archivos);
                     }
                     break;
                 default:
@@ -131,52 +114,7 @@ public class Boleteria {
                     // Implementa la lógica de "Apertura de taquilla"
                     break;
                 case 2:
-                    System.out.print("Lugar:");
-                    String lugar = scanner.nextLine();
-
-                    System.out.print("Ingrese la fecha (Año-Mes-Dia):");
-                    String fechaInput = scanner.nextLine();
-                    LocalDate fecha = null;
-                    try {
-                        fecha = LocalDate.parse(fechaInput);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("La Fecha ingresada no es válida. Por favor ingrese en formato YYYY-MM-DD.");
-                    }
-
-                    System.out.print("Hora (HH:mm): ");
-                    String horaInput = scanner.nextLine();
-                    LocalTime hora = null;
-                    try {
-                        hora = LocalTime.parse(horaInput);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("La hora ingresada no es válida. Por favor ingrese en formato HH:mm.");
-                    }
-
-                    boolean eventoExistente = false;
-                    for (Evento evento : baseDatosEventos) {
-                        if (evento.getLugar().equals(lugar) && evento.getFecha().equals(fecha) && evento.getHora().equals(hora)) {
-                            eventoExistente = true;
-                            System.out.println("El evento ya existe. No se puede agregar.");
-                            break;
-                        }
-                    }
-                    if (!eventoExistente) {
-                        System.out.print("Nombre:");
-                        String nombre = scanner.nextLine();
-                        System.out.print("Artistas:");
-                        String artistas = scanner.nextLine();
-                        System.out.print("Precio cobre:");
-                        int precioCobre = scanner.nextInt();
-                        System.out.print("Precio plata:");
-                        int precioPlata = scanner.nextInt();
-                        System.out.print("Precio oro:");
-                        int precioOro = scanner.nextInt();
-                        System.out.print("Capacidad:");
-                        int capacidad = scanner.nextInt();
-                        baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad, (int) (capacidad*0.6), (int) (capacidad*0.3), (int) (capacidad*0.1)));
-                        archivos.escribirArchivoEvents(baseDatosEventos);
-                        System.out.println("Evento agregado correctamente");
-                    }
+                    crearEvento(scanner, baseDatosEventos, archivos);
                     break;
                 default:
                     System.out.println("Opción no válida");
@@ -201,6 +139,78 @@ public class Boleteria {
             System.out.println("Plata Disponible:" + evento.getPlataDispo());
             System.out.println("Oro Disponible:" + evento.getOroDispo());
             System.out.println("-----------------------------");
+        }
+    }
+
+    public static Usuario buscarUsuario(String documento, ArrayList<Usuario> baseDatosUsuarios,Persistencia archivos){
+        for (Usuario usuario : baseDatosUsuarios) {
+            if (usuario.getDocumento().equals(documento)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public static void crearUsuario (Scanner scanner, String documento, ArrayList<Usuario> baseDatosUsuarios,Persistencia archivos){
+        System.out.print("Nombres:");
+        String nombre = scanner.nextLine();
+        System.out.print("Apellidos:");
+        String apellidos = scanner.nextLine();
+        System.out.print("Contraseña:");
+        String contrasena = scanner.next();
+        System.out.print("Correo:");
+        String correo = scanner.next();
+        baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
+        archivos.escribirArchivoUsers(baseDatosUsuarios);
+        System.out.println("Usuario agregado correctamente");
+    }
+
+    public static void crearEvento(Scanner scanner, ArrayList<Evento> baseDatosEventos, Persistencia archivos){
+        System.out.print("Lugar:");
+        String lugar = scanner.nextLine();
+
+        System.out.print("Ingrese la fecha (Año-Mes-Dia):");
+        String fechaInput = scanner.nextLine();
+        LocalDate fecha = null;
+        try {
+            fecha = LocalDate.parse(fechaInput);
+        } catch (DateTimeParseException e) {
+            System.out.println("La Fecha ingresada no es válida. Por favor ingrese en formato YYYY-MM-DD.");
+        }
+
+        System.out.print("Hora (HH:mm): ");
+        String horaInput = scanner.nextLine();
+        LocalTime hora = null;
+        try {
+            hora = LocalTime.parse(horaInput);
+        } catch (DateTimeParseException e) {
+            System.out.println("La hora ingresada no es válida. Por favor ingrese en formato HH:mm.");
+        }
+
+        boolean eventoExistente = false;
+        for (Evento evento : baseDatosEventos) {
+            if (evento.getLugar().equals(lugar) && evento.getFecha().equals(fecha) && evento.getHora().equals(hora)) {
+                eventoExistente = true;
+                System.out.println("El evento ya existe. No se puede agregar.");
+                break;
+            }
+        }
+        if (!eventoExistente) {
+            System.out.print("Nombre:");
+            String nombre = scanner.nextLine();
+            System.out.print("Artistas:");
+            String artistas = scanner.nextLine();
+            System.out.print("Precio cobre:");
+            int precioCobre = scanner.nextInt();
+            System.out.print("Precio plata:");
+            int precioPlata = scanner.nextInt();
+            System.out.print("Precio oro:");
+            int precioOro = scanner.nextInt();
+            System.out.print("Capacidad:");
+            int capacidad = scanner.nextInt();
+            baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad, (int) (capacidad*0.6), (int) (capacidad*0.3), (int) (capacidad*0.1)));
+            archivos.escribirArchivoEvents(baseDatosEventos);
+            System.out.println("Evento agregado correctamente");
         }
     }
 

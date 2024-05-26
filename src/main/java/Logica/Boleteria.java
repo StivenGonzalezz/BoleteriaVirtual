@@ -1,10 +1,12 @@
 package Logica;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,10 +14,7 @@ import java.util.logging.SimpleFormatter;
 
 public class Boleteria {
 
-
     public void inicio() {
-
-        Scanner scanner = new Scanner(System.in);
         Persistencia archivos = new Persistencia();
         Taquilla taquilla = new Taquilla();
         createLoggFile();
@@ -23,187 +22,201 @@ public class Boleteria {
         archivos.crearArchivoTexto();
         ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
         ArrayList<Evento> baseDatosEventos = archivos.leerArchivoEvents();
-        //ArrayList<Boleatas> baseDatosBoletas = archivos.leerArchivoBoletas();
+        int contador = 1;
+        String contrasenaAdmin="1234";
+        String idAdmin="1234";
 
         int opcion = -1;
 
         while (opcion != 0) {
-            System.out.println("\nIngreso\n");
-            System.out.println("1. Usuario");
-            System.out.println("2. Administrador");
-            System.out.println("0. Salir\n");
-            System.out.print("Ingrese su opción:");
-            opcion = scanner.nextInt();
-            System.out.println("");
-            scanner.nextLine();
+            String opcionStr = JOptionPane.showInputDialog(null,
+                    "Ingreso\n\n" +
+                            "1. Usuario\n" +
+                            "2. Administrador\n" +
+                            "0. Salir\n\n" +
+                            "Ingrese su opción:");
+            opcion = Integer.parseInt(opcionStr);
+
             switch (opcion) {
                 case 0:
-                    System.out.println("Saliendo del sistema");
-                    logger.info("Cliente escoge opcion de salida del sistema");
+                    JOptionPane.showMessageDialog(null, "Saliendo del sistema");
+                    logger.info("Cliente escoge opción de salida del sistema");
                     break;
                 case 1:
-                    usuario(scanner, baseDatosUsuarios, baseDatosEventos, archivos, taquilla);
-                    //logger.info("Cliente escoge opcion de ingreso al menu de usuario");
+                    usuario(baseDatosUsuarios, baseDatosEventos, archivos, taquilla, contador);
                     break;
                 case 2:
-                    administrador(scanner, baseDatosEventos, archivos);
-                    //logger.info("liente escoge opcion de ingreso al menu adminstrativo");
+                    String regsiterPaswordAdmin = JOptionPane.showInputDialog(null, "Contraseña del admin:");
+                    String registerIDAdmin = JOptionPane.showInputDialog(null, "ID del admin:");
+                    if(contrasenaAdmin.equals(regsiterPaswordAdmin) && idAdmin.equals(registerIDAdmin)){
+                        administrador(baseDatosEventos, archivos);
+                    }else
+                        JOptionPane.showMessageDialog(null, "Contraseña o ID no coinciden");
                     break;
                 default:
-                    System.out.println("Opción no válida. Por favor ingrese una opción válida");
-                    //logger.info("Cliente digita opcion incorrecta");
+                    JOptionPane.showMessageDialog(null, "Opción no válida. Por favor ingrese una opción válida");
                     break;
             }
         }
-        scanner.close();
     }
 
-    private static void usuario(Scanner scanner, ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos,  Persistencia archivos, Taquilla taquilla) {
+    private void usuario(ArrayList<Usuario> baseDatosUsuarios, ArrayList<Evento> baseDatosEventos,
+                         Persistencia archivos, Taquilla taquilla, int contador) {
         int opcion = -1;
         while (opcion != 0) {
-            System.out.println("Panel usuario\n");
-            System.out.println("1. Comprar Tiquetes");
-            System.out.println("2: informacion de eventos");
-            System.out.println("3. Crear Usuario");
-            System.out.println("0. Volver\n");
-            System.out.print("Ingrese su opción:");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            String opcionStr = JOptionPane.showInputDialog(null,
+                    "Panel usuario\n\n" +
+                            "1. Comprar Tiquetes\n" +
+                            "2. Información de eventos\n" +
+                            "3. Crear Usuario\n" +
+                            "0. Volver\n\n" +
+                            "Ingrese su opción:");
+            opcion = Integer.parseInt(opcionStr);
+
             switch (opcion) {
                 case 0:
-                    System.out.println("Saliendo del panel usuario");
+                    //JOptionPane.showMessageDialog(null, "Saliendo del panel usuario");
                     break;
                 case 1:
-                    //aqui pongo lo de hilos
-                    taquilla.venderTiquetes(baseDatosEventos, baseDatosUsuarios, archivos);
+                    ExecutorService executorService = Executors.newFixedThreadPool(3);
+                    String nombreEventoBus = JOptionPane.showInputDialog(null, "¿Cuál es el nombre del evento al que quiere asistir?");
+                    boolean eventoEncontrado = false;
+
+                    for (Evento evento : baseDatosEventos) {
+                        if (evento.getNombre().equalsIgnoreCase(nombreEventoBus)) {
+                            if (contador <= evento.getCanEscenario()) {
+                                Runnable tarea = new Hilos.miTarera("tarea" + contador);
+                                executorService.execute(tarea);
+                                executorService.shutdown();
+                                contador++;
+                                eventoEncontrado = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!eventoEncontrado) {
+                        JOptionPane.showMessageDialog(null, "Evento no encontrado o no hay cupo disponible");
+                    }
                     break;
                 case 2:
                     mostrarEventos(baseDatosEventos);
                     break;
                 case 3:
-                    System.out.print("Documento:");
-                    String documento = scanner.nextLine();
-
+                    String documento = JOptionPane.showInputDialog(null, "Documento:");
                     boolean usuarioExistente = false;
+
                     for (Usuario usuario : baseDatosUsuarios) {
                         if (usuario.getDocumento().equals(documento)) {
                             usuarioExistente = true;
-                            System.out.println("El usuario ya existe. No se puede agregar.");
+                            JOptionPane.showMessageDialog(null, "El usuario ya existe. No se puede agregar.");
                             break;
                         }
                     }
 
                     if (!usuarioExistente) {
-                        System.out.print("Nombres:");
-                        String nombre = scanner.nextLine();
-                        System.out.print("Apellidos:");
-                        String apellidos = scanner.nextLine();
-                        System.out.print("Contraseña:");
-                        String contrasena = scanner.next();
-                        System.out.print("Correo:");
-                        String correo = scanner.next();
+                        String nombre = JOptionPane.showInputDialog(null, "Nombres:");
+                        String apellidos = JOptionPane.showInputDialog(null, "Apellidos:");
+                        String contrasena = JOptionPane.showInputDialog(null, "Contraseña:");
+                        String correo = JOptionPane.showInputDialog(null, "Correo:");
+
                         baseDatosUsuarios.add(new Usuario(nombre, apellidos, documento, contrasena, correo));
                         archivos.escribirArchivoUsers(baseDatosUsuarios);
-                        System.out.println("Usuario agregado correctamente");
+                        JOptionPane.showMessageDialog(null, "Usuario agregado correctamente");
                     }
                     break;
                 default:
-                    System.out.println("Opción no válida. Por favor ingrese una opción válida");
+                    JOptionPane.showMessageDialog(null, "Opción no válida. Por favor ingrese una opción válida");
                     break;
             }
         }
     }
 
-    private static void administrador(Scanner scanner, ArrayList<Evento> baseDatosEventos, Persistencia archivos) {
+    private void administrador(ArrayList<Evento> baseDatosEventos, Persistencia archivos) {
         int opcion = -1;
-
         while (opcion != 0) {
-            System.out.println("Panel admin\n");
-            System.out.println("1. Apertura de taquilla");
-            System.out.println("2. Registrar evento");
-            System.out.println("0. Volver\n");
-            System.out.print("Ingrese su opción:");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            String opcionStr = JOptionPane.showInputDialog(null,
+                    "Panel admin\n\n" +
+                            "1. Apertura de taquilla\n" +
+                            "2. Registrar evento\n" +
+                            "0. Volver\n\n" +
+                            "Ingrese su opción:");
+            opcion = Integer.parseInt(opcionStr);
+
             switch (opcion) {
                 case 0:
-                    System.out.println("Saliendo del panel admin");
+                    //JOptionPane.showMessageDialog(null, "Saliendo del panel admin");
                     break;
                 case 1:
                     // Implementa la lógica de "Apertura de taquilla"
                     break;
                 case 2:
-                    System.out.print("Lugar:");
-                    String lugar = scanner.nextLine();
-
-                    System.out.print("Ingrese la fecha (Año-Mes-Dia):");
-                    String fechaInput = scanner.nextLine();
+                    String lugar = JOptionPane.showInputDialog(null, "Lugar:");
+                    String fechaInput = JOptionPane.showInputDialog(null, "Ingrese la fecha (Año-Mes-Dia):");
                     LocalDate fecha = null;
                     try {
                         fecha = LocalDate.parse(fechaInput);
                     } catch (DateTimeParseException e) {
-                        System.out.println("La Fecha ingresada no es válida. Por favor ingrese en formato YYYY-MM-DD.");
+                        JOptionPane.showMessageDialog(null, "La Fecha ingresada no es válida. Por favor ingrese en formato YYYY-MM-DD.");
+                        continue;
                     }
 
-                    System.out.print("Hora (HH:mm): ");
-                    String horaInput = scanner.nextLine();
+                    String horaInput = JOptionPane.showInputDialog(null, "Hora (HH:mm):");
                     LocalTime hora = null;
                     try {
                         hora = LocalTime.parse(horaInput);
                     } catch (DateTimeParseException e) {
-                        System.out.println("La hora ingresada no es válida. Por favor ingrese en formato HH:mm.");
+                        JOptionPane.showMessageDialog(null, "La hora ingresada no es válida. Por favor ingrese en formato HH:mm.");
+                        continue;
                     }
 
                     boolean eventoExistente = false;
                     for (Evento evento : baseDatosEventos) {
                         if (evento.getLugar().equals(lugar) && evento.getFecha().equals(fecha) && evento.getHora().equals(hora)) {
                             eventoExistente = true;
-                            System.out.println("El evento ya existe. No se puede agregar.");
+                            JOptionPane.showMessageDialog(null, "El evento ya existe. No se puede agregar.");
                             break;
                         }
                     }
+
                     if (!eventoExistente) {
-                        System.out.print("Nombre:");
-                        String nombre = scanner.nextLine();
-                        System.out.print("Artistas:");
-                        String artistas = scanner.nextLine();
-                        System.out.print("Precio cobre:");
-                        int precioCobre = scanner.nextInt();
-                        System.out.print("Precio plata:");
-                        int precioPlata = scanner.nextInt();
-                        System.out.print("Precio oro:");
-                        int precioOro = scanner.nextInt();
-                        System.out.print("Capacidad:");
-                        int capacidad = scanner.nextInt();
-                        baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad, (int) (capacidad*0.6), (int) (capacidad*0.3), (int) (capacidad*0.1)));
+                        String nombre = JOptionPane.showInputDialog(null, "Nombre:");
+                        String artistas = JOptionPane.showInputDialog(null, "Artistas:");
+                        int precioCobre = Integer.parseInt(JOptionPane.showInputDialog(null, "Precio cobre:"));
+                        int precioPlata = Integer.parseInt(JOptionPane.showInputDialog(null, "Precio plata:"));
+                        int precioOro = Integer.parseInt(JOptionPane.showInputDialog(null, "Precio oro:"));
+                        int capacidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Capacidad:"));
+
+                        baseDatosEventos.add(new Evento(nombre, fecha, hora, lugar, artistas, precioCobre, precioPlata, precioOro, capacidad, (int) (capacidad * 0.6), (int) (capacidad * 0.3), (int) (capacidad * 0.1)));
                         archivos.escribirArchivoEvents(baseDatosEventos);
-                        System.out.println("Evento agregado correctamente");
+                        JOptionPane.showMessageDialog(null, "Evento agregado correctamente");
                     }
                     break;
                 default:
-                    System.out.println("Opción no válida");
+                    JOptionPane.showMessageDialog(null, "Opción no válida");
                     break;
             }
         }
     }
 
-    private static void mostrarEventos(ArrayList<Evento> eventos) {
-        System.out.println("Eventos");
+    private void mostrarEventos(ArrayList<Evento> eventos) {
+        StringBuilder eventosStr = new StringBuilder("Eventos\n\n");
         for (Evento evento : eventos) {
-            System.out.println("Nombre:" + evento.getNombre());
-            System.out.println("Lugar:" + evento.getLugar());
-            System.out.println("Fecha:" + evento.getFecha());
-            System.out.println("Hora:" + evento.getHora());
-            System.out.println("Artistas:" + evento.getArtista());
-            System.out.println("Precio Cobre:" + evento.getPrecioCobre());
-            System.out.println("Precio Plata:" + evento.getPrecioPlata());
-            System.out.println("Precio Oro:" + evento.getPrecioOro());
-            System.out.println("Capacidad:" + evento.getCanEscenario());
-            System.out.println("Cobre Disponible:" + evento.getCobreDispo());
-            System.out.println("Plata Disponible:" + evento.getPlataDispo());
-            System.out.println("Oro Disponible:" + evento.getOroDispo());
-            System.out.println("-----------------------------");
+            eventosStr.append("Nombre: ").append(evento.getNombre()).append("\n");
+            eventosStr.append("Lugar: ").append(evento.getLugar()).append("\n");
+            eventosStr.append("Fecha: ").append(evento.getFecha()).append("\n");
+            eventosStr.append("Hora: ").append(evento.getHora()).append("\n");
+            eventosStr.append("Artistas: ").append(evento.getArtista()).append("\n");
+            eventosStr.append("Precio Cobre: ").append(evento.getPrecioCobre()).append("\n");
+            eventosStr.append("Precio Plata: ").append(evento.getPrecioPlata()).append("\n");
+            eventosStr.append("Precio Oro: ").append(evento.getPrecioOro()).append("\n");
+            eventosStr.append("Capacidad: ").append(evento.getCanEscenario()).append("\n");
+            eventosStr.append("Cobre Disponible: ").append(evento.getCobreDispo()).append("\n");
+            eventosStr.append("Plata Disponible: ").append(evento.getPlataDispo()).append("\n");
+            eventosStr.append("Oro Disponible: ").append(evento.getOroDispo()).append("\n");
+            eventosStr.append("-----------------------------\n");
         }
+        JOptionPane.showMessageDialog(null, eventosStr.toString());
     }
 
     //SECCION Y COMANDOS DE LOGGS

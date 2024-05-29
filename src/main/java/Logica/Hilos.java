@@ -14,17 +14,17 @@ public class Hilos {
     private static String correoUser;
     private static String codigoConcatenado = "";
 
-    public static class miTarera implements Runnable {
+    public static class miTarea implements Runnable {
 
-        private  String tarea;
+        private String tarea;
 
-        public miTarera(String tarea) {
+        public miTarea(String tarea) {
             this.tarea = tarea;
         }
 
         @Override
         public void run() {
-            //System.out.println(Thread.currentThread().getName()+": "+tarea);
+            System.out.println(Thread.currentThread().getName() + ": " + tarea);
             Persistencia archivos = new Persistencia();
             ArrayList<Evento> baseDatosEventos = archivos.leerArchivoEvents();
             ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
@@ -167,7 +167,13 @@ public class Hilos {
             }
             return totalOro;
         }
+    }
 
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        for (int i = 1; i <= 5; i++) {
+            executor.execute(new miTarea("Tarea " + i));
+        }
+        executor.shutdown();
     }
 }
-

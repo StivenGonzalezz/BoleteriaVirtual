@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +16,6 @@ public class Boleteria {
         Persistencia archivos = new Persistencia();
         Taquilla taquilla = new Taquilla();
         createLoggFile();
-
         archivos.crearArchivoTexto();
         ArrayList<Usuario> baseDatosUsuarios = archivos.leerArchivoUsers();
         ArrayList<Evento> baseDatosEventos = archivos.leerArchivoEvents();
@@ -78,28 +75,61 @@ public class Boleteria {
                     //JOptionPane.showMessageDialog(null, "Saliendo del panel usuario");
                     break;
                 case 1:
-                    ExecutorService executorService = Executors.newFixedThreadPool(3);
-                    String nombreEventoBus = JOptionPane.showInputDialog(null, "¿Cuál es el nombre del evento al que quiere asistir?");
-                    boolean eventoEncontrado = false;
+                   taquilla.venderTiquetes(baseDatosEventos, baseDatosUsuarios,archivos);
 
-                    for (Evento evento : baseDatosEventos) {
-                        if (evento.getNombre().equalsIgnoreCase(nombreEventoBus)) {
-                            if (contador <= evento.getCanEscenario()) {
-                                Runnable tarea = new Hilos.miTarera("tarea" + contador);
-                                executorService.execute(tarea);
-                                executorService.shutdown();
-                                contador++;
-                                eventoEncontrado = true;
+                    String opcionCompra = JOptionPane.showInputDialog(null,
+                            "Panel usuario\n\n" +
+                                    "1. VisaNacional\n" +
+                                    "2. MastercardNacional\n" +
+                                    "3. AmericanExpressNacional\n" +
+                                    "4. payvalida\n" +
+                                    "5. Efecty\n" +
+                                    "6. PSE\n" +
+                                    "7. SafetyPay\n" +
+                                    "8. Visa\n" +
+                                    "9. MasterCard\n" +
+                                    "0. volver\n" +
+                                    "Ingrese su opción:");
+
+                    int opcionPago = Integer.parseInt(opcionStr);
+                    switch (opcionPago){
+                        case 1:
+                            System.out.println("se pago con VisaNacional");
+                            break;
+                        case 2:
+                            System.out.println("se pago con MastercardNacional");
+                            break;
+                        case 3:
+                            System.out.println("se pago con AmericanExpressNacional");
+                            break;
+                        case 4:
+                            System.out.println("se pago con payvalida");
+                            break;
+                        case 5:
+                            System.out.println("se pago con Efecty");
+                            break;
+                        case 6:
+                            System.out.println("se pago con PSE");
+                            break;
+                        case 7:
+                            System.out.println("se pago con SafetyPay");
+                            break;
+                        case 8:
+                                System.out.println("se pago con Visa");
                                 break;
-                            }
-                        }
-                    }
+                        case 9:
+                            System.out.println("se pago con MasterCard");
+                            break;
 
-                    if (!eventoEncontrado) {
-                        JOptionPane.showMessageDialog(null, "Evento no encontrado o no hay cupo disponible");
+                        case 0:
+                            System.out.println("no se pago");
                     }
-                    break;
+                   break;
+
+
+
                 case 2:
+                    logger.info("usuario ingresa opcion de mostrar eventos");
                     mostrarEventos(baseDatosEventos);
                     break;
                 case 3:
@@ -109,12 +139,14 @@ public class Boleteria {
                     for (Usuario usuario : baseDatosUsuarios) {
                         if (usuario.getDocumento().equals(documento)) {
                             usuarioExistente = true;
+                            logger.info("error al crear usuario");
                             JOptionPane.showMessageDialog(null, "El usuario ya existe. No se puede agregar.");
                             break;
                         }
                     }
 
                     if (!usuarioExistente) {
+                        logger.info("usuario creado");
                         String nombre = JOptionPane.showInputDialog(null, "Nombres:");
                         String apellidos = JOptionPane.showInputDialog(null, "Apellidos:");
                         String contrasena = JOptionPane.showInputDialog(null, "Contraseña:");
@@ -145,12 +177,13 @@ public class Boleteria {
 
             switch (opcion) {
                 case 0:
-                    //JOptionPane.showMessageDialog(null, "Saliendo del panel admin");
+                    JOptionPane.showMessageDialog(null, "Saliendo del panel admin");
                     break;
                 case 1:
                     // Implementa la lógica de "Apertura de taquilla"
                     break;
                 case 2:
+                    logger.info("usuario ingresa opcion de crear evento");
                     String lugar = JOptionPane.showInputDialog(null, "Lugar:");
                     String fechaInput = JOptionPane.showInputDialog(null, "Ingrese la fecha (Año-Mes-Dia):");
                     LocalDate fecha = null;
@@ -174,12 +207,14 @@ public class Boleteria {
                     for (Evento evento : baseDatosEventos) {
                         if (evento.getLugar().equals(lugar) && evento.getFecha().equals(fecha) && evento.getHora().equals(hora)) {
                             eventoExistente = true;
+                            logger.info("error al crear evento");
                             JOptionPane.showMessageDialog(null, "El evento ya existe. No se puede agregar.");
                             break;
                         }
                     }
 
                     if (!eventoExistente) {
+                        logger.info("evento creado con exito");
                         String nombre = JOptionPane.showInputDialog(null, "Nombre:");
                         String artistas = JOptionPane.showInputDialog(null, "Artistas:");
                         int precioCobre = Integer.parseInt(JOptionPane.showInputDialog(null, "Precio cobre:"));

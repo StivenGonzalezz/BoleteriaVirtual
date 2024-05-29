@@ -22,3 +22,4 @@ public class Boleatas extends Usuario{
         return super.toFileString() + "," + codigoBoletas;
     }
 }
+
